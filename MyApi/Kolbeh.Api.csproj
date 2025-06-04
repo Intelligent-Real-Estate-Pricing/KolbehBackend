@@ -30,4 +30,8 @@
 	  <DocFileItem Remove="Kolbeh.Api.xml" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="Properties\PublishProfiles\" />
+	</ItemGroup>
+
 </Project>

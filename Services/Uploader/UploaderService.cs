@@ -97,7 +97,7 @@ public class UploaderService(IRepository<UploadedFile> uploadedFileRepository, I
 
                 if (withWatermark)
                 {
-                    var waterMarkLoc = Path.Combine(wwwrootPath, "Media", "Gallery", "Watermarks", "simagar-light.png");
+                    var waterMarkLoc = Path.Combine(wwwrootPath, "Media", "Gallery", "Watermarks", "");
                     if (File.Exists(waterMarkLoc))
                     {
                         var waterMark = Image.Load(waterMarkLoc);
