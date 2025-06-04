@@ -1,0 +1,33 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<ItemGroup>
+		<PackageReference Include="Asp.Versioning.Mvc" />
+		<PackageReference Include="AutoMapper" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
+		<PackageReference Include="Microsoft.AspNetCore.Authorization" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" />
+		<PackageReference Include="Parbad" />
+		<PackageReference Include="Parbad.AspNetCore" />
+		<PackageReference Include="Parbad.Gateway.ZarinPal" />
+		<PackageReference Include="Parbad.Gateway.Zibal" />
+		<PackageReference Include="Parbad.Storage.Abstractions" />
+		<PackageReference Include="Parbad.Storage.Cache" />
+		<PackageReference Include="Swashbuckle.AspNetCore" />
+		<PackageReference Include="Swashbuckle.AspNetCore.Annotations" />
+		<PackageReference Include="Swashbuckle.AspNetCore.Filters" />
+		<PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" />
+		<PackageReference Include="Swashbuckle.AspNetCore.ReDoc" />
+		<PackageReference Include="Serilog.AspNetCore" />
+		<PackageReference Include="Serilog.Sinks.Seq" />
+		<PackageReference Include="IdGen" />
+		<PackageReference Include="IdGen.DependencyInjection" />
+		<PackageReference Include="FluentValidation" />
+		<PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" />
+
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Services\Services.csproj" />
+	</ItemGroup>
+
+</Project>

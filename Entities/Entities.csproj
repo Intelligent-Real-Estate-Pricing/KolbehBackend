@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<ItemGroup>
+		<PackageReference Include="HtmlAgilityPack" />
+		<PackageReference Include="Microsoft.Extensions.Identity.Stores" />
+		<PackageReference Include="Parbad.Storage.EntityFrameworkCore" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Common\Common.csproj" />
+	</ItemGroup>
+
+</Project>

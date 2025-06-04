@@ -1,0 +1,33 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+	<PropertyGroup>
+		<DocumentationFile>Kolbeh.Api.xml</DocumentationFile>
+		<IsTransformWebConfigDisabled>true</IsTransformWebConfigDisabled>
+		<AutoGenerateWebConfig>false</AutoGenerateWebConfig>
+		<GenerateWebConfig>false</GenerateWebConfig>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="System.Text.RegularExpressions" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Application\Application.csproj" />
+		<ProjectReference Include="..\WebFramework\WebFramework.csproj" />
+	</ItemGroup>
+
+	<ProjectExtensions><VisualStudio><UserProperties /></VisualStudio></ProjectExtensions>
+
+	<ItemGroup>
+	  <DocFileItem Remove="Kolbeh.Api.xml" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <DocFileItem Remove="Kolbeh.Api.xml" />
+	</ItemGroup>
+
+</Project>

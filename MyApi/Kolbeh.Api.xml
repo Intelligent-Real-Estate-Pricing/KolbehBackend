@@ -1,0 +1,121 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Kolbeh.Api</name>
+    </assembly>
+    <members>
+        <member name="T:Kolbeh.Api.Controllers.v1.UploadersController">
+            <summary>
+            کنترلر آپلود
+            </summary>
+            <param name="commandDispatcher"></param>
+            <param name="queryDispatcher"></param>
+        </member>
+        <member name="M:Kolbeh.Api.Controllers.v1.UploadersController.#ctor(Application.Cqrs.Commands.ICommandDispatcher,Application.Cqrs.Queris.IQueryDispatcher)">
+            <summary>
+            کنترلر آپلود
+            </summary>
+            <param name="commandDispatcher"></param>
+            <param name="queryDispatcher"></param>
+        </member>
+        <member name="M:Kolbeh.Api.Controllers.v1.UploadersController.Upload(Services.Uploader.DTOs.UploadV2DTO)">
+            <summary>
+            آپلود
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Kolbeh.Api.Controllers.v1.UploadersController.UploaddForStaticPage(Services.Uploader.DTOs.UploadV2DTO)">
+            <summary>
+            اپلود برای استاتیک پیج
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Kolbeh.Api.Controllers.v1.UploadersController.Get(System.String,System.Guid)">
+            <summary>
+            دریافت فایل
+            </summary>
+            <param name="guid"></param>
+            <param name="userId"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Kolbeh.Api.Controllers.v1.UsersController">
+            <summary>
+            کنترلر کاربر
+            </summary>
+        </member>
+        <member name="M:Kolbeh.Api.Controllers.v1.UsersController.Get(System.Guid,System.Threading.CancellationToken)">
+            <summary>
+            اطلاعات یوزر با آیدی
+            </summary>
+            <param name="id"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Kolbeh.Api.Controllers.v1.UsersController.Token(Kolbeh.Api.Models.TokenRequest,System.Threading.CancellationToken)">
+            <summary>
+            This method generate JWT Token
+            </summary>
+            <param name="tokenRequest">The information of token request</param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Kolbeh.Api.Controllers.v1.UsersController.CheckUserName(System.String,System.Threading.CancellationToken)">
+            <summary>
+            بررسی نام کاربری کاربر
+            </summary>
+            <param name="username"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Kolbeh.Api.Controllers.v1.UsersController.RegisterUser(Kolbeh.Api.Models.DTOs.RegisterUserDTO,System.Threading.CancellationToken)">
+            <summary>
+            ثبت نام کاربرعادی
+            </summary>
+            <param name="input"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Kolbeh.Api.Controllers.v1.UsersController.Delete(System.Guid,System.Threading.CancellationToken)">
+            <summary>
+            حذف کاربر با ایدی توسط ادمین
+            </summary>
+            <param name="id"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Kolbeh.Api.Controllers.v1.UsersController.SendOtp(System.String,System.Threading.CancellationToken)">
+            <summary>
+            ارسال OTP
+            </summary>
+            <param name="phoneNumber"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Kolbeh.Api.Controllers.v1.UsersController.ResetPasswordByOtp(Application.Users.DTOs.ResetPasswordByOtp,System.Threading.CancellationToken)">
+            <summary>
+            تعویض رمز عبور با otp
+            </summary>
+            <param name="input"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Kolbeh.Api.Controllers.v1.UsersController.AddRoleToUser(Application.Users.DTOs.AddRoleToUserDTO,System.Threading.CancellationToken)">
+            <summary>
+            افزودن نقش ها به کاربر
+            </summary>
+            <param name="input"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Kolbeh.Api.Controllers.v1.UsersController.RemoveFromRolesUser(Application.Users.DTOs.AddRoleToUserDTO,System.Threading.CancellationToken)">
+            <summary>
+            حذف نقش ها از کاربر
+            </summary>
+            <param name="input"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>
