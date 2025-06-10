@@ -14,6 +14,7 @@ namespace Data.EntitiesConfiguration.Users
 
             //Navigations
             builder.HasMany(x => x.OtherPeopleAccessUploadedFiles).WithOne(x => x.User).HasForeignKey(x => x.UserId);
+            builder.HasMany(x => x.Estates).WithOne(x => x.User).HasForeignKey(x => x.UserId);
 
             //QueryFilter
             builder.HasQueryFilter(x => !x.IsDeleted);

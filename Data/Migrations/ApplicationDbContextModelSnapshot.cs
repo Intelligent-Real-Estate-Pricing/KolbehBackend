@@ -47,13 +47,22 @@ namespace Data.Migrations
                     b.Property<int>("DocumentType")
                         .HasColumnType("int");
 
+                    b.Property<float>("GreeneryLevel")
+                        .HasColumnType("real");
+
                     b.Property<bool>("HasElevator")
                         .HasColumnType("bit");
 
                     b.Property<bool>("HasJacuzzi")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("HasLobby")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("HasParking")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("HasPool")
                         .HasColumnType("bit");
 
                     b.Property<bool>("HasRoofGarden")
@@ -71,17 +80,29 @@ namespace Data.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("IsModernTexture")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Location")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NameNeighborhood")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("NaturalLight")
-                        .HasColumnType("int");
+                    b.Property<string>("NaturalLight")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Neighborhood")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<float>("PassageWidth")
+                        .HasColumnType("real");
 
                     b.Property<decimal>("PricePerSquareMeter")
                         .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("PropertyType")
+                        .HasColumnType("int");
 
                     b.Property<int>("RealEstateOperationType")
                         .HasColumnType("int");
@@ -113,11 +134,10 @@ namespace Data.Migrations
 
             modelBuilder.Entity("Entities.Medias.Media", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("NEWSEQUENTIALID()");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -125,8 +145,8 @@ namespace Data.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<long>("ObjectId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid>("ObjectId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Type")
                         .HasColumnType("int");
@@ -140,6 +160,222 @@ namespace Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Media", "Media");
+                });
+
+            modelBuilder.Entity("Entities.RealEstateInfoFiles.RealEstateInfoFile", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("NEWSEQUENTIALID()");
+
+                    b.Property<int>("Balconies")
+                        .HasColumnType("int");
+
+                    b.Property<int>("BathroomType")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Bedrooms")
+                        .HasColumnType("int");
+
+                    b.Property<string>("BuildingAge")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("BuiltArea")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("DocumentType")
+                        .HasColumnType("int");
+
+                    b.Property<int>("FacadeType")
+                        .HasColumnType("int");
+
+                    b.Property<int>("FlooringType")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Floors")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("HasAirHandler")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("HasBackyard")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("HasBarbecue")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("HasCCTV")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("HasCentralAntenna")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("HasCentralSatellite")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("HasCentralVacuum")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("HasChiller")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("HasConferenceHall")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("HasCooler")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("HasDuctSplit")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("HasElectricalPanel")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("HasElevator")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("HasEmergencyPower")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("HasFanCoil")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("HasFireAlarm")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("HasFireExtinguishingSystem")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("HasGarbageChute")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("HasGas")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("HasGuardOrJanitorService")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("HasGuardService")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("HasGym")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("HasJacuzzi")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("HasJanitorService")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("HasLaundry")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("HasLobby")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("HasLobbyManService")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("HasMasterRoom")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("HasMeetingHall")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("HasNoElevator")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("HasPackageHeater")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("HasParking")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("HasPool")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("HasRadiator")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("HasRemoteControlDoor")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("HasRoofGarden")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("HasSauna")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("HasSecurityDoor")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("HasServantService")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("HasSplitAC")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("HasStorage")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("HasTelephone")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("HasUnderfloorHeating")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("HasVideoIntercom")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsFlat")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsFurnished")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsKitchenOpen")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsRenovated")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsSoldWithTenant")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("KitchenType")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Mantaghe")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("PricePerSquareMeter")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("SquareMeters")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TotalFloors")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("TotalPrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("UnitsPerFloor")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("RealEstateInfoFiles");
                 });
 
             modelBuilder.Entity("Entities.Shared.ValidationCode", b =>
@@ -489,7 +725,7 @@ namespace Data.Migrations
             modelBuilder.Entity("Entities.Estates.Estate", b =>
                 {
                     b.HasOne("Entities.Users.User", "User")
-                        .WithMany()
+                        .WithMany("Estates")
                         .HasForeignKey("UserId");
 
                     b.Navigation("User");
@@ -592,6 +828,8 @@ namespace Data.Migrations
 
             modelBuilder.Entity("Entities.Users.User", b =>
                 {
+                    b.Navigation("Estates");
+
                     b.Navigation("OtherPeopleAccessUploadedFiles");
 
                     b.Navigation("UserRoles");

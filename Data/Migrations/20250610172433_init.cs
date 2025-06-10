@@ -71,10 +71,9 @@ namespace Data.Migrations
                 schema: "Media",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "NEWSEQUENTIALID()"),
                     URL = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ObjectId = table.Column<long>(type: "bigint", nullable: false),
+                    ObjectId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Type = table.Column<int>(type: "int", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -83,6 +82,85 @@ namespace Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Media", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "RealEstateInfoFiles",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "NEWSEQUENTIALID()"),
+                    Mantaghe = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TotalFloors = table.Column<int>(type: "int", nullable: false),
+                    UnitsPerFloor = table.Column<int>(type: "int", nullable: false),
+                    TotalPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    PricePerSquareMeter = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    SquareMeters = table.Column<int>(type: "int", nullable: false),
+                    Floors = table.Column<int>(type: "int", nullable: false),
+                    BuiltArea = table.Column<int>(type: "int", nullable: false),
+                    Bedrooms = table.Column<int>(type: "int", nullable: false),
+                    Balconies = table.Column<int>(type: "int", nullable: false),
+                    HasTelephone = table.Column<bool>(type: "bit", nullable: false),
+                    KitchenType = table.Column<int>(type: "int", nullable: false),
+                    IsKitchenOpen = table.Column<bool>(type: "bit", nullable: false),
+                    BathroomType = table.Column<int>(type: "int", nullable: false),
+                    FlooringType = table.Column<int>(type: "int", nullable: false),
+                    HasElevator = table.Column<bool>(type: "bit", nullable: false),
+                    FacadeType = table.Column<int>(type: "int", nullable: false),
+                    DocumentType = table.Column<int>(type: "int", nullable: false),
+                    HasParking = table.Column<bool>(type: "bit", nullable: false),
+                    HasStorage = table.Column<bool>(type: "bit", nullable: false),
+                    BuildingAge = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsFurnished = table.Column<bool>(type: "bit", nullable: false),
+                    HasGas = table.Column<bool>(type: "bit", nullable: false),
+                    HasVideoIntercom = table.Column<bool>(type: "bit", nullable: false),
+                    HasCooler = table.Column<bool>(type: "bit", nullable: false),
+                    HasRemoteControlDoor = table.Column<bool>(type: "bit", nullable: false),
+                    HasRadiator = table.Column<bool>(type: "bit", nullable: false),
+                    HasPackageHeater = table.Column<bool>(type: "bit", nullable: false),
+                    IsRenovated = table.Column<bool>(type: "bit", nullable: false),
+                    HasJacuzzi = table.Column<bool>(type: "bit", nullable: false),
+                    HasSauna = table.Column<bool>(type: "bit", nullable: false),
+                    HasPool = table.Column<bool>(type: "bit", nullable: false),
+                    HasLobby = table.Column<bool>(type: "bit", nullable: false),
+                    HasDuctSplit = table.Column<bool>(type: "bit", nullable: false),
+                    HasChiller = table.Column<bool>(type: "bit", nullable: false),
+                    HasRoofGarden = table.Column<bool>(type: "bit", nullable: false),
+                    HasMasterRoom = table.Column<bool>(type: "bit", nullable: false),
+                    HasNoElevator = table.Column<bool>(type: "bit", nullable: false),
+                    HasSplitAC = table.Column<bool>(type: "bit", nullable: false),
+                    HasJanitorService = table.Column<bool>(type: "bit", nullable: false),
+                    HasMeetingHall = table.Column<bool>(type: "bit", nullable: false),
+                    HasFanCoil = table.Column<bool>(type: "bit", nullable: false),
+                    HasGym = table.Column<bool>(type: "bit", nullable: false),
+                    HasCCTV = table.Column<bool>(type: "bit", nullable: false),
+                    HasEmergencyPower = table.Column<bool>(type: "bit", nullable: false),
+                    IsFlat = table.Column<bool>(type: "bit", nullable: false),
+                    HasUnderfloorHeating = table.Column<bool>(type: "bit", nullable: false),
+                    HasFireAlarm = table.Column<bool>(type: "bit", nullable: false),
+                    HasFireExtinguishingSystem = table.Column<bool>(type: "bit", nullable: false),
+                    HasCentralVacuum = table.Column<bool>(type: "bit", nullable: false),
+                    HasSecurityDoor = table.Column<bool>(type: "bit", nullable: false),
+                    HasLaundry = table.Column<bool>(type: "bit", nullable: false),
+                    IsSoldWithTenant = table.Column<bool>(type: "bit", nullable: false),
+                    HasCentralAntenna = table.Column<bool>(type: "bit", nullable: false),
+                    HasBackyard = table.Column<bool>(type: "bit", nullable: false),
+                    HasServantService = table.Column<bool>(type: "bit", nullable: false),
+                    HasBarbecue = table.Column<bool>(type: "bit", nullable: false),
+                    HasElectricalPanel = table.Column<bool>(type: "bit", nullable: false),
+                    HasConferenceHall = table.Column<bool>(type: "bit", nullable: false),
+                    HasGuardService = table.Column<bool>(type: "bit", nullable: false),
+                    HasAirHandler = table.Column<bool>(type: "bit", nullable: false),
+                    HasCentralSatellite = table.Column<bool>(type: "bit", nullable: false),
+                    HasGarbageChute = table.Column<bool>(type: "bit", nullable: false),
+                    HasLobbyManService = table.Column<bool>(type: "bit", nullable: false),
+                    HasGuardOrJanitorService = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RealEstateInfoFiles", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -225,7 +303,7 @@ namespace Data.Migrations
                     Area = table.Column<double>(type: "float", nullable: false),
                     BathroomCount = table.Column<int>(type: "int", nullable: false),
                     RoomCount = table.Column<int>(type: "int", nullable: false),
-                    NaturalLight = table.Column<int>(type: "int", nullable: false),
+                    NaturalLight = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PricePerSquareMeter = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     DocumentType = table.Column<int>(type: "int", nullable: false),
                     HasStorage = table.Column<bool>(type: "bit", nullable: false),
@@ -235,6 +313,13 @@ namespace Data.Migrations
                     HasSauna = table.Column<bool>(type: "bit", nullable: false),
                     HasJacuzzi = table.Column<bool>(type: "bit", nullable: false),
                     HasRoofGarden = table.Column<bool>(type: "bit", nullable: false),
+                    HasPool = table.Column<bool>(type: "bit", nullable: false),
+                    HasLobby = table.Column<bool>(type: "bit", nullable: false),
+                    GreeneryLevel = table.Column<float>(type: "real", nullable: false),
+                    PassageWidth = table.Column<float>(type: "real", nullable: false),
+                    IsModernTexture = table.Column<bool>(type: "bit", nullable: false),
+                    PropertyType = table.Column<int>(type: "int", nullable: false),
+                    Neighborhood = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
@@ -404,6 +489,9 @@ namespace Data.Migrations
             migrationBuilder.DropTable(
                 name: "OtherPeopleAccessUploadedFiles",
                 schema: "UploadedFile");
+
+            migrationBuilder.DropTable(
+                name: "RealEstateInfoFiles");
 
             migrationBuilder.DropTable(
                 name: "ValidationCodes",

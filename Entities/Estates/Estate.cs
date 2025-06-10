@@ -4,9 +4,9 @@ using Entities.Users;
 
 namespace Entities.Estates
 {
-    public class Estate :BaseEntity<Guid>
+    public class Estate : BaseEntity<Guid>
     {
-        public User  User{ get; set; }
+        public User User { get; set; }
         /// <summary>
         /// یوزر سازنده
         /// </summary>
@@ -32,21 +32,19 @@ namespace Entities.Estates
         ///     عنوان ملک
         /// </summary>
         public string Title { get; set; }
-        
+
         /// <summary>
         /// سال ساخت
         /// </summary>
-        public  int ConstructionYear { get; set; }
+        public int ConstructionYear { get; set; }
         /// <summary>
         /// تعداد طبقه
         /// </summary>
-        public int TotalFloors { get; set; }  
+        public int TotalFloors { get; set; }
         /// <summary>
         /// تعداد واحد هر طبقه 
         /// </summary>
         public int UnitsPerFloor { get; set; }
-
-
         /// <summary>
         /// متراژ نقشه
         /// </summary>
@@ -65,7 +63,7 @@ namespace Entities.Estates
         /// <summary>
         /// نورگیر
         /// </summary>
-        public NaturalLightType NaturalLight { get; set; }
+        public List<NaturalLightType> NaturalLight { get; set; } = new();
 
         /// <summary>
         /// قیمت هر متر
@@ -78,15 +76,73 @@ namespace Entities.Estates
         /// </summary>
         public DocumentType DocumentType { get; set; }
 
-        // امکانات پایه
+
+        /// <summary>
+        /// انباری دارد
+        /// </summary>
         public bool HasStorage { get; set; }
+
+        /// <summary>
+        /// تراس دارد
+        /// </summary>
         public bool HasTerrace { get; set; }
+
+        /// <summary>
+        /// پارکینگ دارد
+        /// </summary>
         public bool HasParking { get; set; }
+
+        /// <summary>
+        /// آسانسور دارد
+        /// </summary>
         public bool HasElevator { get; set; }
 
-        // امکانات لاکچری
+        /// <summary>
+        /// سونا
+        /// </summary>
         public bool HasSauna { get; set; }
+        /// <summary>
+        /// جکوزی
+        /// </summary>
         public bool HasJacuzzi { get; set; }
+        /// <summary>
+        /// روف گاردن 
+        /// </summary>
         public bool HasRoofGarden { get; set; }
+        /// <summary>
+        /// استخر
+        /// </summary>
+        public bool HasPool { get; set; }
+
+        /// <summary>
+        /// لابی
+        /// </summary>
+        public bool HasLobby { get; set; }
+
+        /// <summary>
+        /// مشجر بودن (از -1 تا 1)
+        /// </summary>
+        public float GreeneryLevel { get; set; }
+
+        /// <summary>
+        /// عرض معبر (بر حسب متر)
+        /// </summary>
+        public float PassageWidth { get; set; }
+
+        /// <summary>
+        /// بافت (قدیمی/جدید) - true = جدید، false = قدیمی
+        /// </summary>
+        public bool IsModernTexture { get; set; }
+
+        /// <summary>
+        /// نوع ملک (مثلاً مسکونی، تجاری، ویلایی و ...)
+        /// </summary>
+        public RealEstateOperationType PropertyType { get; set; }
+
+        /// <summary>
+        /// محله
+        /// </summary>
+        public string Neighborhood { get; set; }
+
     }
 }

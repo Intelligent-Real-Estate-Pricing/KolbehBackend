@@ -4,8 +4,6 @@ namespace Entities.Estates.Enums
 {
     public enum NaturalLightType
     {
-        [Display(Name = "بدون نورگیر")]
-        None,
         [Display(Name = "نورگیر شمالی")]
         North,
         [Display(Name = "نورگیر جنوبی")]

@@ -13,4 +13,5 @@ namespace Entities.Estates.Enums
         [Display(Name = "سند وقفی")]
         Endowment
     }
+
 }
