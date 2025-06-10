@@ -1,20 +1,15 @@
-﻿using Entities.Common;
-using Entities.Estates.Enums;
-using Entities.Notifications;
-using Entities.Users;
+﻿using Entities.Estates.Enums;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Entities.Estates
+namespace Application.Estates.DTOs
 {
-    public class Estate : BaseEntity<Guid>
+    public class CreateEstatesDTO
     {
-        public User User { get; set; }
-        /// <summary>
-        /// یوزر سازنده
-        /// </summary>
-        public Guid? UserId { get; set; }
-        /// <summary>
-        /// منطقه
-        /// </summary>
+
         public string NameNeighborhood { get; set; }
 
         /// <summary>
@@ -60,17 +55,11 @@ namespace Entities.Estates
         /// تعداد اتاق
         /// </summary>
         public int RoomCount { get; set; }
-        /// <summary>
-        /// طبقه ی واحد
-        /// </summary>
-        public int FloorNumber { get; set; }
 
         /// <summary>
         /// نورگیر
         /// </summary>
         public List<NaturalLightType> NaturalLight { get; set; } = new();
-        public List<Notification> Notifications { get; set; }
-
 
         /// <summary>
         /// قیمت هر متر
@@ -150,76 +139,5 @@ namespace Entities.Estates
         /// محله
         /// </summary>
         public string Neighborhood { get; set; }
-
-        public static Estate Create(
-        string nameNeighborhood,
-        string address,
-        string location,
-        RealEstateOperationType operationType,
-        string title,
-        int constructionYear,
-        int totalFloors,
-        int unitsPerFloor,
-        double area,
-        int bathroomCount,
-        int roomCount,
-        List<NaturalLightType> naturalLight,
-        decimal pricePerSq,
-        DocumentType docType,
-        bool hasStorage,
-        bool hasTerrace,
-        bool hasParking,
-        bool hasElevator,
-        bool hasSauna,
-        bool hasJacuzzi,
-        bool hasRoofGarden,
-        bool hasPool,
-        bool hasLobby,
-        float greeneryLevel,
-        float passageWidth,
-        bool isModernTexture,
-        RealEstateOperationType propertyType,
-        string neighborhood
-    )
-        {
-            return new Estate
-            {
-                Id = Guid.NewGuid(),
-                NameNeighborhood = nameNeighborhood,
-                Address = address,
-                Location = location,
-                RealEstateOperationType = operationType,
-                Title = title,
-                ConstructionYear = constructionYear,
-                TotalFloors = totalFloors,
-                UnitsPerFloor = unitsPerFloor,
-                Area = area,
-                BathroomCount = bathroomCount,
-                RoomCount = roomCount,
-                NaturalLight = naturalLight,
-                PricePerSquareMeter = pricePerSq,
-                DocumentType = docType,
-                HasStorage = hasStorage,
-                HasTerrace = hasTerrace,
-                HasParking = hasParking,
-                HasElevator = hasElevator,
-                HasSauna = hasSauna,
-                HasJacuzzi = hasJacuzzi,
-                HasRoofGarden = hasRoofGarden,
-                HasPool = hasPool,
-                HasLobby = hasLobby,
-                GreeneryLevel = greeneryLevel,
-                PassageWidth = passageWidth,
-                IsModernTexture = isModernTexture,
-                PropertyType = propertyType,
-                Neighborhood = neighborhood
-            };
-        }
-
-        public void SetUserId(Guid userId)
-        {
-            UserId = userId;
-        }
-
     }
 }

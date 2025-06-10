@@ -1,5 +1,6 @@
 ﻿using Entities.Common;
 using Entities.Estates;
+using Entities.Notifications;
 using Entities.UploadedFiles;
 using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
@@ -54,6 +55,7 @@ namespace Entities.Users
         public ICollection<UserRole> UserRoles { get; set; }
         public List<OtherPeopleAccessUploadedFile> OtherPeopleAccessUploadedFiles { get; set; }
         public List<Estate> Estates { get; set; }
+        public List<Notification> Notifications { get; set; }
 
 
 

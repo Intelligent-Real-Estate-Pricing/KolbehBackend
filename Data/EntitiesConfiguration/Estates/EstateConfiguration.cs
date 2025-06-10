@@ -17,6 +17,7 @@ namespace Data.EntitiesConfiguration.Estates
             builder.HasKey(x => x.Id);
 
             builder.HasOne(a => a.User).WithMany(a => a.Estates).HasForeignKey(a => a.UserId);
+            builder.HasMany(a => a.Notifications).WithOne(a => a.RelatedEstate).HasForeignKey(a => a.RelatedEstateId);
             builder.HasQueryFilter(x => !x.IsDeleted);
 
         }

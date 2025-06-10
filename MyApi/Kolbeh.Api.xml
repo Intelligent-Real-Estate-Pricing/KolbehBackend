@@ -4,6 +4,45 @@
         <name>Kolbeh.Api</name>
     </assembly>
     <members>
+        <member name="T:Kolbeh.Api.Controllers.v1.EstatesController">
+            <summary>
+            ملک 
+            </summary>
+            <param name="commandDispatcher"></param>
+            <param name="queryDispatcher"></param>
+        </member>
+        <member name="M:Kolbeh.Api.Controllers.v1.EstatesController.#ctor(Application.Cqrs.Commands.ICommandDispatcher,Application.Cqrs.Queris.IQueryDispatcher)">
+            <summary>
+            ملک 
+            </summary>
+            <param name="commandDispatcher"></param>
+            <param name="queryDispatcher"></param>
+        </member>
+        <member name="M:Kolbeh.Api.Controllers.v1.EstatesController.Create(Application.Estates.DTOs.CreateEstatesDTO)">
+            <summary>
+            ساخت ملک جدید
+            </summary>
+        </member>
+        <member name="M:Kolbeh.Api.Controllers.v1.EstatesController.Delete(System.Guid)">
+            <summary>
+            حذف ملک
+            </summary>
+        </member>
+        <member name="M:Kolbeh.Api.Controllers.v1.EstatesController.GetAll(Application.Estates.DTOs.GetAllEstateDTO)">
+            <summary>
+            گرفتن لیست املاک با فیلتر و صفحه‌بندی
+            </summary>
+        </member>
+        <member name="M:Kolbeh.Api.Controllers.v1.EstatesController.Get(System.Guid)">
+            <summary>
+            گرفتن اطلاعات یک ملک با آیدی
+            </summary>
+        </member>
+        <member name="M:Kolbeh.Api.Controllers.v1.EstatesController.GetMyEstates">
+            <summary>
+            گرفتن لیست املاک متعلق به کاربر لاگین کرده
+            </summary>
+        </member>
         <member name="T:Kolbeh.Api.Controllers.v1.UploadersController">
             <summary>
             کنترلر آپلود
