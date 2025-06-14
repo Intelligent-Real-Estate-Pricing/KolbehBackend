@@ -30,7 +30,7 @@ namespace WebFramework.Configuration
             services.AddDbContext<ApplicationDbContext>(options =>
             {
                 options
-                    .UseSqlServer(configuration.GetConnectionString("SqlServer"));
+                    .UseSqlServer(configuration.GetConnectionString("Database"));
                 //Tips
                 //Automatic client evaluation is no longer supported. This event is no longer generated.
                 //This line is no longer needed.

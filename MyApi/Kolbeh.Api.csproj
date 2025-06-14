@@ -5,6 +5,9 @@
 		<IsTransformWebConfigDisabled>true</IsTransformWebConfigDisabled>
 		<AutoGenerateWebConfig>false</AutoGenerateWebConfig>
 		<GenerateWebConfig>false</GenerateWebConfig>
+		<UserSecretsId>e5fd01af-3751-4833-9367-37e0ab8efc3e</UserSecretsId>
+		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+		<DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -12,6 +15,7 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
+		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" />
 		<PackageReference Include="System.Text.RegularExpressions" />
 	</ItemGroup>
 
@@ -20,19 +24,21 @@
 		<ProjectReference Include="..\WebFramework\WebFramework.csproj" />
 	</ItemGroup>
 
-	<ProjectExtensions><VisualStudio><UserProperties /></VisualStudio></ProjectExtensions>
+	<ProjectExtensions>
+		<VisualStudio>
+			<UserProperties />
+		</VisualStudio>
+	</ProjectExtensions>
 
 	<ItemGroup>
-	  <DocFileItem Remove="Kolbeh.Api.xml" />
+		<Folder Include="Properties\PublishProfiles\" />
+		<Folder Include="wwwroot\UploadImages\" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <DocFileItem Remove="Kolbeh.Api.xml" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Properties\PublishProfiles\" />
-	  <Folder Include="wwwroot\UploadImages\" />
+		<Content Update="wwwroot\**\*.*">
+			<CopyToPublishDirectory>Always</CopyToPublishDirectory>
+		</Content>
 	</ItemGroup>
 
 </Project>
