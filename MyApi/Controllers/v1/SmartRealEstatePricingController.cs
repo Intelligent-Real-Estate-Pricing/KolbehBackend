@@ -16,7 +16,7 @@ using Application.Estates.Command.PricingRequest;
 namespace Kolbeh.Api.Controllers.v1
 {
     /// <summary>
-    /// ملک 
+    /// قیمت گذازی با ai 
     /// </summary>
     /// <param name="commandDispatcher"></param>
     /// <param name="queryDispatcher"></param>

@@ -4,6 +4,34 @@
         <name>Kolbeh.Api</name>
     </assembly>
     <members>
+        <member name="T:BuildParticipationController">
+            <summary>
+            مشارکت در ساخت
+            </summary>
+            <param name="commandDispatcher"></param>
+            <param name="queryDispatcher"></param>
+        </member>
+        <member name="M:BuildParticipationController.#ctor(Application.Cqrs.Commands.ICommandDispatcher,Application.Cqrs.Queris.IQueryDispatcher)">
+            <summary>
+            مشارکت در ساخت
+            </summary>
+            <param name="commandDispatcher"></param>
+            <param name="queryDispatcher"></param>
+        </member>
+        <member name="T:EstateDelegationController">
+            <summary>
+            خرید و اجاره 
+            </summary>
+            <param name="commandDispatcher"></param>
+            <param name="queryDispatcher"></param>
+        </member>
+        <member name="M:EstateDelegationController.#ctor(Application.Cqrs.Commands.ICommandDispatcher,Application.Cqrs.Queris.IQueryDispatcher)">
+            <summary>
+            خرید و اجاره 
+            </summary>
+            <param name="commandDispatcher"></param>
+            <param name="queryDispatcher"></param>
+        </member>
         <member name="T:RealEstateInfoFileController">
             <summary>
             اطلاعات فایل املاک
@@ -45,14 +73,14 @@
         </member>
         <member name="T:Kolbeh.Api.Controllers.v1.SmartRealEstatePricingController">
             <summary>
-            ملک 
+            قیمت گذازی با ai 
             </summary>
             <param name="commandDispatcher"></param>
             <param name="queryDispatcher"></param>
         </member>
         <member name="M:Kolbeh.Api.Controllers.v1.SmartRealEstatePricingController.#ctor(Application.Cqrs.Commands.ICommandDispatcher,Application.Cqrs.Queris.IQueryDispatcher)">
             <summary>
-            ملک 
+            قیمت گذازی با ai 
             </summary>
             <param name="commandDispatcher"></param>
             <param name="queryDispatcher"></param>
