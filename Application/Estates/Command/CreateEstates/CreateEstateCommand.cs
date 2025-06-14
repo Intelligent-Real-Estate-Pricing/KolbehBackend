@@ -11,7 +11,7 @@ namespace Application.Estates.Command.CreateEstates
     public record CreateEstateCommand(CreateEstatesDTO Model) : ICommand<ServiceResult>;
     public class CreateEstateCommandHandler(
     IHttpContextAccessor httpContextAccessor,
-    IRepository<Estate> estateRepository
+    IRepository<SmartRealEstatePricing> estateRepository
 ) : ICommandHandler<CreateEstateCommand, ServiceResult>
     {
         public async Task<ServiceResult> Handle(CreateEstateCommand request, CancellationToken cancellationToken)
@@ -24,7 +24,7 @@ namespace Application.Estates.Command.CreateEstates
 
             var dto = request.Model;
 
-            var estate = Estate.Create(
+            var estate = SmartRealEstatePricing.Create(
                 dto.NameNeighborhood,
                 dto.Address,
                 dto.Location,
@@ -37,7 +37,6 @@ namespace Application.Estates.Command.CreateEstates
                 dto.BathroomCount,
                 dto.RoomCount,
                 dto.NaturalLight,
-                dto.PricePerSquareMeter,
                 dto.DocumentType,
                 dto.HasStorage,
                 dto.HasTerrace,

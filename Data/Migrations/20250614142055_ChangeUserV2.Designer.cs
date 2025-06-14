@@ -4,6 +4,7 @@ using Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250614142055_ChangeUserV2")]
+    partial class ChangeUserV2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -22,7 +25,7 @@ namespace Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Entities.Estates.SmartRealEstatePricing", b =>
+            modelBuilder.Entity("Entities.Estates.Estate", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -89,6 +92,9 @@ namespace Data.Migrations
                     b.Property<string>("Location")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("NameNeighborhood")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("NaturalLight")
                         .HasColumnType("nvarchar(max)");
 
@@ -101,13 +107,10 @@ namespace Data.Migrations
                     b.Property<decimal>("PricePerSquareMeter")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<decimal>("PriceingWithAi")
-                        .HasColumnType("decimal(18,2)");
-
                     b.Property<int>("PropertyType")
                         .HasColumnType("int");
 
-                    b.Property<int?>("RealEstateOperationType")
+                    b.Property<int>("RealEstateOperationType")
                         .HasColumnType("int");
 
                     b.Property<int>("RoomCount")
@@ -128,14 +131,11 @@ namespace Data.Migrations
                     b.Property<Guid?>("UserId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Zone")
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("SmartRealEstatePricings");
+                    b.ToTable("Estates");
                 });
 
             modelBuilder.Entity("Entities.Medias.Media", b =>
@@ -774,7 +774,7 @@ namespace Data.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("Entities.Estates.SmartRealEstatePricing", b =>
+            modelBuilder.Entity("Entities.Estates.Estate", b =>
                 {
                     b.HasOne("User", "User")
                         .WithMany("Estates")
@@ -791,7 +791,7 @@ namespace Data.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("Entities.Estates.SmartRealEstatePricing", "RelatedEstate")
+                    b.HasOne("Entities.Estates.Estate", "RelatedEstate")
                         .WithMany("Notifications")
                         .HasForeignKey("RelatedEstateId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -887,7 +887,7 @@ namespace Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Entities.Estates.SmartRealEstatePricing", b =>
+            modelBuilder.Entity("Entities.Estates.Estate", b =>
                 {
                     b.Navigation("Notifications");
                 });

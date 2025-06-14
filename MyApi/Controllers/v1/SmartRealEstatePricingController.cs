@@ -11,6 +11,7 @@ using Asp.Versioning;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebFramework.Api;
+using Application.Estates.Command.PricingRequest;
 
 namespace Kolbeh.Api.Controllers.v1
 {
@@ -21,7 +22,7 @@ namespace Kolbeh.Api.Controllers.v1
     /// <param name="queryDispatcher"></param>
     [ApiVersion("1")]
     [ApiController]
-    public class EstatesController(ICommandDispatcher commandDispatcher, IQueryDispatcher queryDispatcher)
+    public class SmartRealEstatePricingController(ICommandDispatcher commandDispatcher, IQueryDispatcher queryDispatcher)
       : BaseController
     {
         /// <summary>
@@ -55,6 +56,27 @@ namespace Kolbeh.Api.Controllers.v1
         [AllowAnonymous]
         public async Task<ApiResult<EstateDTO>> Get(Guid id)
             => (await queryDispatcher.SendAsync(new GetEstateByIdQuery(id))).ToApiResult();
+
+
+        /// <summary>
+        /// درخواست قیمت گذاری انلاین
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpPost("[action]")]
+        [Authorize]
+        public async Task<ApiResult> PricingRequest([FromQuery] Guid id)
+      => (await commandDispatcher.SendAsync(new PricingRequestCommand(id))).ToApiResult();
+         
+        /// <summary>
+        /// درخواست قیمت گذاری انلاین
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpPost("[action]")]
+        [Authorize]
+        public async Task<ApiResult> PricingRequestV2([FromQuery] Guid id,string ImageUrl)
+      => (await commandDispatcher.SendAsync(new PricingRequestCommand(id))).ToApiResult();
 
         /// <summary>
         /// گرفتن لیست املاک متعلق به کاربر لاگین کرده

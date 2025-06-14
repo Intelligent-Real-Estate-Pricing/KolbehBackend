@@ -5,7 +5,7 @@ using Entities.Users;
 
 namespace Entities.Estates
 {
-    public class Estate : BaseEntity<Guid>
+    public class SmartRealEstatePricing : BaseEntity<Guid>
     {
         public User User { get; set; }
         /// <summary>
@@ -13,9 +13,14 @@ namespace Entities.Estates
         /// </summary>
         public Guid? UserId { get; set; }
         /// <summary>
+        ///     عنوان ملک
+        /// </summary>
+        public string Title { get; set; }
+
+        /// <summary>
         /// منطقه
         /// </summary>
-        public string NameNeighborhood { get; set; }
+        public string Zone { get; set; }
 
         /// <summary>
         /// ادرس
@@ -26,14 +31,14 @@ namespace Entities.Estates
         /// </summary>
         public string Location { get; set; }
         /// <summary>
-        /// نوع اگهی
+        /// نوع ملک (مثلاً مسکونی، تجاری، ویلایی و ...)
         /// </summary>
-        public RealEstateOperationType RealEstateOperationType { get; set; }
-        /// <summary>
-        ///     عنوان ملک
-        /// </summary>
-        public string Title { get; set; }
+        public RealEstateOperationType PropertyType { get; set; }
 
+        /// <summary>
+        /// نوع معامله
+        /// </summary>
+        public RealEstateOperationType? RealEstateOperationType { get; set; }
         /// <summary>
         /// سال ساخت
         /// </summary>
@@ -78,6 +83,11 @@ namespace Entities.Estates
 
         public decimal PricePerSquareMeter { get; set; }
 
+        /// <summary>
+        /// قیمت پیشبینی شده
+        /// </summary>
+        public decimal PriceingWithAi{ get; set; }
+            
         /// <summary>
         /// نوع سند
         /// </summary>
@@ -141,17 +151,13 @@ namespace Entities.Estates
         /// </summary>
         public bool IsModernTexture { get; set; }
 
-        /// <summary>
-        /// نوع ملک (مثلاً مسکونی، تجاری، ویلایی و ...)
-        /// </summary>
-        public RealEstateOperationType PropertyType { get; set; }
 
         /// <summary>
         /// محله
         /// </summary>
         public string Neighborhood { get; set; }
 
-        public static Estate Create(
+        public static SmartRealEstatePricing Create(
         string nameNeighborhood,
         string address,
         string location,
@@ -164,7 +170,6 @@ namespace Entities.Estates
         int bathroomCount,
         int roomCount,
         List<NaturalLightType> naturalLight,
-        decimal pricePerSq,
         DocumentType docType,
         bool hasStorage,
         bool hasTerrace,
@@ -182,10 +187,10 @@ namespace Entities.Estates
         string neighborhood
     )
         {
-            return new Estate
+            return new SmartRealEstatePricing
             {
                 Id = Guid.NewGuid(),
-                NameNeighborhood = nameNeighborhood,
+                Zone = nameNeighborhood,
                 Address = address,
                 Location = location,
                 RealEstateOperationType = operationType,
@@ -197,7 +202,6 @@ namespace Entities.Estates
                 BathroomCount = bathroomCount,
                 RoomCount = roomCount,
                 NaturalLight = naturalLight,
-                PricePerSquareMeter = pricePerSq,
                 DocumentType = docType,
                 HasStorage = hasStorage,
                 HasTerrace = hasTerrace,

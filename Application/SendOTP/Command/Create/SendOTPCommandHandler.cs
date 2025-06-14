@@ -9,14 +9,14 @@ using Services.Services.SmsSender;
 
 namespace Application.SendOTP.Command.Create;
 
-public class SendOTPCommandHandler(IRepository<ValidationCode> repository, UserManager<User> userManager, ISmsSenderService smsSender) : ICommandHandler<SendOTPCommand, ServiceResult>
+public class SendOTPCommandHandler(IRepository<ValidationCode> repository, UserManager<User> userManager, ISmsSenderService smsSender) : ICommandHandler<SendOTPCommand, ServiceResult<string>>
 {
-    public async Task<ServiceResult> Handle(SendOTPCommand request, CancellationToken cancellationToken)
+    public async Task<ServiceResult<string>> Handle(SendOTPCommand request, CancellationToken cancellationToken)
     {
 
         var user = await userManager.FindByNameAsync(request.PhoneNumber);
         if (user is not null)
-            return ServiceResult.BadRequest("کاربری با این شماره موبایل ثبت نام کرده است");
+            return ServiceResult<string>.Fail("کاربری با این شماره موبایل ثبت نام کرده است");
 
 
         var code = await repository.Table.OrderByDescending(x => x.Id).Where(x => x.PhoneNumber == request.PhoneNumber).FirstOrDefaultAsync(cancellationToken);
@@ -25,7 +25,7 @@ public class SendOTPCommandHandler(IRepository<ValidationCode> repository, UserM
             var timeaLeft = TimeSpan.FromSeconds(120) - (DateTime.Now - code.CreatedAt);
             var secondsLeft = Math.Max(0, (int)timeaLeft.TotalSeconds);
             var result = secondsLeft.ToString();
-            return ServiceResult.ExpiredCode(result);
+   /*         return ServiceResult.ExpiredCode(result);*/
         }
 
 
@@ -34,9 +34,11 @@ public class SendOTPCommandHandler(IRepository<ValidationCode> repository, UserM
             Code = Random.Shared.Next(10000, 99999).ToString(),
             PhoneNumber = request.PhoneNumber
         };
-
         await repository.AddAsync(code, cancellationToken, true);
-        await smsSender.SendOTP(request.PhoneNumber, code.Code);
-        return ServiceResult.Ok();
+        var Code = code.Code.ToString();
+        
+/*        await smsSender.SendOTP(request.PhoneNumber, code.Code);*/
+        return ServiceResult.Ok<string>(Code, "کد با موفقیت ارسال شد");
+
     }
 }

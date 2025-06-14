@@ -24,7 +24,7 @@ namespace Application.Estates.DTOs
         /// <summary>
         /// نوع اگهی
         /// </summary>
-        public RealEstateOperationType RealEstateOperationType { get; set; }
+        public RealEstateOperationType? RealEstateOperationType { get; set; }
         /// <summary>
         ///     عنوان ملک
         /// </summary>
@@ -67,6 +67,7 @@ namespace Application.Estates.DTOs
         /// </summary>
 
         public decimal PricePerSquareMeter { get; set; }
+        public decimal PriceingWithAi { get; set; }
 
         /// <summary>
         /// نوع سند

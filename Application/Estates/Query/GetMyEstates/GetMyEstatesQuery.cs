@@ -17,7 +17,7 @@ namespace Application.Estates.Query.GetMyEstates
 {
     public record GetMyEstatesQuery : IQuery<ServiceResult<List<EstateDTO>>>;
     public class GetMyEstatesQueryHandler(
-        IRepository<Estate> estateRepository,
+        IRepository<SmartRealEstatePricing> estateRepository,
         IHttpContextAccessor httpContextAccessor)
         : IQueryHandler<GetMyEstatesQuery, ServiceResult<List<EstateDTO>>>
     {
@@ -36,7 +36,8 @@ namespace Application.Estates.Query.GetMyEstates
                 .Select(x => new EstateDTO
                 {
                     UserName = x.User.FullName,
-                    NameNeighborhood = x.NameNeighborhood,
+                    NameNeighborhood = x.Zone,
+                    PriceingWithAi=x.PriceingWithAi,
                     Address = x.Address,
                     Location = x.Location,
                     RealEstateOperationType = x.RealEstateOperationType,

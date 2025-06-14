@@ -15,7 +15,7 @@ namespace Application.Estates.Query.GetAll
     public record GetAllEstatesQuery(GetAllEstateDTO Filters)
      : IQuery<ServiceResult<GlobalGridResult<GetEstateListDto>>>;
 
-    public class GetAllEstatesQueryHandler(IRepository<Estate> estateRepository)
+    public class GetAllEstatesQueryHandler(IRepository<SmartRealEstatePricing> estateRepository)
     : IQueryHandler<GetAllEstatesQuery, ServiceResult<GlobalGridResult<GetEstateListDto>>>
     {
         public async Task<ServiceResult<GlobalGridResult<GetEstateListDto>>> Handle(GetAllEstatesQuery request, CancellationToken cancellationToken)

@@ -2,76 +2,71 @@
 using Entities.Estates;
 using Entities.Notifications;
 using Entities.UploadedFiles;
+using Entities.Users;
 using Microsoft.AspNetCore.Identity;
-using System.ComponentModel.DataAnnotations;
 
-namespace Entities.Users
+public class User : IdentityUser<Guid>, IEntity<Guid>, ISoftDelete
 {
-    public class User : IdentityUser<Guid>, IEntity<Guid>, ISoftDelete
+    public User()
     {
-        public User()
-        {
-            IsActive = true;
-        }
-        public User(string phoneNumber, string email,string fullName) 
-        {
-            UserName = phoneNumber;
-            FullName = fullName;
-            PhoneNumber = phoneNumber;
-            Email = email;
-            IsActive = true;
-        }
-
-
-        /// <summary>
-        /// نام و نام خانوادگی
-        /// </summary>
-        public string FullName { get; set; }
-
-        /// <summary>
-        /// کدملی
-        /// </summary>
-        public string NationalCode { get; set; }
-
-        public bool IsActive { get; set; }
-        /// <summary>
-        /// آخرین ورود
-        /// </summary>
-        public DateTimeOffset? LastLoginDate { get; set; }
-
-        /// <summary>
-        /// عکس کاربر
-        /// </summary>
-        public string ImageUrl { get; set; }
-        /// <summary>
-        /// حذف کاربر
-        /// </summary>
-        public bool IsDeleted { get; set; }
-  
-
-        /// <summary>
-        /// نقش های کاربر
-        /// </summary>
-        public ICollection<UserRole> UserRoles { get; set; }
-        public List<OtherPeopleAccessUploadedFile> OtherPeopleAccessUploadedFiles { get; set; }
-        public List<Estate> Estates { get; set; }
-        public List<Notification> Notifications { get; set; }
-
-
-
-        //Factory Methods
-
-        public static User RegisterUser(string phoneNumber, string nationalCode, string fullName)=>new (phoneNumber, nationalCode, fullName);   
-        public void ActivityToggle() => IsActive = !IsActive;
+        IsActive = true;
+        AuthenticationMethod = AuthenticationMethod.OTP;
     }
 
-
-    public enum GenderType
+    public User(string phoneNumber, string fullName)
     {
-        [Display(Name = "مرد")]
-        Male = 1,
-
-        [Display(Name = "زن")]
-        Female = 2
+        UserName = phoneNumber;
+        FullName = fullName;
+        PhoneNumber = phoneNumber;
+        IsActive = true;
+        AuthenticationMethod = AuthenticationMethod.OTP;
     }
+
+    public string FullName { get; set; }
+    public bool IsActive { get; set; }
+    public DateTimeOffset? LastLoginDate { get; set; }
+    public string ImageUrl { get; set; }
+    public bool IsDeleted { get; set; }
+
+    // New property for authentication method
+    public AuthenticationMethod AuthenticationMethod { get; set; }
+
+    // Navigation properties
+    public ICollection<UserRole> UserRoles { get; set; }
+    public List<OtherPeopleAccessUploadedFile> OtherPeopleAccessUploadedFiles { get; set; }
+    public List<SmartRealEstatePricing> Estates { get; set; }
+    public List<Notification> Notifications { get; set; }
+
+    // Factory Methods
+    public static User RegisterUser(string phoneNumber, string fullName)
+        => new(phoneNumber, fullName);
+
+    public void ActivityToggle() => IsActive = !IsActive;
+
+    // Domain methods for authentication
+    public void EnablePasswordAuthentication()
+    {
+        AuthenticationMethod = AuthenticationMethod.Both;
+    }
+
+    public void DisablePasswordAuthentication()
+    {
+        AuthenticationMethod = AuthenticationMethod.OTP;
+    }
+
+    public bool CanAuthenticateWithPassword()
+        => AuthenticationMethod == AuthenticationMethod.Password ||
+           AuthenticationMethod == AuthenticationMethod.Both;
+
+    public bool CanAuthenticateWithOTP()
+        => AuthenticationMethod == AuthenticationMethod.OTP ||
+           AuthenticationMethod == AuthenticationMethod.Both;
+}
+
+// Authentication Method Enum
+public enum AuthenticationMethod
+{
+    OTP = 1,
+    Password = 2,
+    Both = 3
 }

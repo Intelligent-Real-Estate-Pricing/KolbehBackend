@@ -4,41 +4,94 @@
         <name>Kolbeh.Api</name>
     </assembly>
     <members>
-        <member name="T:Kolbeh.Api.Controllers.v1.EstatesController">
+        <member name="T:RealEstateInfoFileController">
+            <summary>
+            اطلاعات فایل املاک
+            </summary>
+            <param name="commandDispatcher"></param>
+            <param name="queryDispatcher"></param>
+        </member>
+        <member name="M:RealEstateInfoFileController.#ctor(Application.Cqrs.Commands.ICommandDispatcher,Application.Cqrs.Queris.IQueryDispatcher)">
+            <summary>
+            اطلاعات فایل املاک
+            </summary>
+            <param name="commandDispatcher"></param>
+            <param name="queryDispatcher"></param>
+        </member>
+        <member name="M:RealEstateInfoFileController.Create(CreateRealEstateInfoFileDTO)">
+            <summary>
+            ساخت فایل اطلاعات املاک جدید
+            </summary>
+        </member>
+        <member name="M:RealEstateInfoFileController.Update(System.Guid,Application.RealEstateInfoFiles.DTOs.UpdateRealEstateInfoFileDTO)">
+            <summary>
+            ویرایش فایل اطلاعات املاک
+            </summary>
+        </member>
+        <member name="M:RealEstateInfoFileController.Delete(System.Guid)">
+            <summary>
+            حذف فایل اطلاعات املاک
+            </summary>
+        </member>
+        <member name="M:RealEstateInfoFileController.GetAll(GetAllRealEstateInfoFileDTO)">
+            <summary>
+            گرفتن لیست فایل‌های اطلاعات املاک با فیلتر و صفحه‌بندی
+            </summary>
+        </member>
+        <member name="M:RealEstateInfoFileController.Get(System.Guid)">
+            <summary>
+            گرفتن اطلاعات یک فایل املاک با آیدی
+            </summary>
+        </member>
+        <member name="T:Kolbeh.Api.Controllers.v1.SmartRealEstatePricingController">
             <summary>
             ملک 
             </summary>
             <param name="commandDispatcher"></param>
             <param name="queryDispatcher"></param>
         </member>
-        <member name="M:Kolbeh.Api.Controllers.v1.EstatesController.#ctor(Application.Cqrs.Commands.ICommandDispatcher,Application.Cqrs.Queris.IQueryDispatcher)">
+        <member name="M:Kolbeh.Api.Controllers.v1.SmartRealEstatePricingController.#ctor(Application.Cqrs.Commands.ICommandDispatcher,Application.Cqrs.Queris.IQueryDispatcher)">
             <summary>
             ملک 
             </summary>
             <param name="commandDispatcher"></param>
             <param name="queryDispatcher"></param>
         </member>
-        <member name="M:Kolbeh.Api.Controllers.v1.EstatesController.Create(Application.Estates.DTOs.CreateEstatesDTO)">
+        <member name="M:Kolbeh.Api.Controllers.v1.SmartRealEstatePricingController.Create(Application.Estates.DTOs.CreateEstatesDTO)">
             <summary>
             ساخت ملک جدید
             </summary>
         </member>
-        <member name="M:Kolbeh.Api.Controllers.v1.EstatesController.Delete(System.Guid)">
+        <member name="M:Kolbeh.Api.Controllers.v1.SmartRealEstatePricingController.Delete(System.Guid)">
             <summary>
             حذف ملک
             </summary>
         </member>
-        <member name="M:Kolbeh.Api.Controllers.v1.EstatesController.GetAll(Application.Estates.DTOs.GetAllEstateDTO)">
+        <member name="M:Kolbeh.Api.Controllers.v1.SmartRealEstatePricingController.GetAll(Application.Estates.DTOs.GetAllEstateDTO)">
             <summary>
             گرفتن لیست املاک با فیلتر و صفحه‌بندی
             </summary>
         </member>
-        <member name="M:Kolbeh.Api.Controllers.v1.EstatesController.Get(System.Guid)">
+        <member name="M:Kolbeh.Api.Controllers.v1.SmartRealEstatePricingController.Get(System.Guid)">
             <summary>
             گرفتن اطلاعات یک ملک با آیدی
             </summary>
         </member>
-        <member name="M:Kolbeh.Api.Controllers.v1.EstatesController.GetMyEstates">
+        <member name="M:Kolbeh.Api.Controllers.v1.SmartRealEstatePricingController.PricingRequest(System.Guid)">
+            <summary>
+            درخواست قیمت گذاری انلاین
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Kolbeh.Api.Controllers.v1.SmartRealEstatePricingController.PricingRequestV2(System.Guid,System.String)">
+            <summary>
+            درخواست قیمت گذاری انلاین
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Kolbeh.Api.Controllers.v1.SmartRealEstatePricingController.GetMyEstates">
             <summary>
             گرفتن لیست املاک متعلق به کاربر لاگین کرده
             </summary>
@@ -79,80 +132,41 @@
             <param name="userId"></param>
             <returns></returns>
         </member>
-        <member name="T:Kolbeh.Api.Controllers.v1.UsersController">
+        <member name="T:UsersController">
             <summary>
-            کنترلر کاربر
+            یوزر
             </summary>
         </member>
-        <member name="M:Kolbeh.Api.Controllers.v1.UsersController.Get(System.Guid,System.Threading.CancellationToken)">
+        <member name="M:UsersController.RegisterUserWithOtp(Application.Users.DTOs.RegisterUserWithOtpDTO,System.Threading.CancellationToken)">
             <summary>
-            اطلاعات یوزر با آیدی
+            ثبت نام کاربر با OTP
             </summary>
-            <param name="id"></param>
-            <param name="cancellationToken"></param>
-            <returns></returns>
         </member>
-        <member name="M:Kolbeh.Api.Controllers.v1.UsersController.Token(Kolbeh.Api.Models.TokenRequest,System.Threading.CancellationToken)">
+        <member name="M:UsersController.LoginWithOtp(Application.Users.DTOs.LoginWithOtpDTO,System.Threading.CancellationToken)">
             <summary>
-            This method generate JWT Token
+            ورود با OTP
             </summary>
-            <param name="tokenRequest">The information of token request</param>
-            <param name="cancellationToken"></param>
-            <returns></returns>
         </member>
-        <member name="M:Kolbeh.Api.Controllers.v1.UsersController.CheckUserName(System.String,System.Threading.CancellationToken)">
+        <member name="M:UsersController.LoginWithPassword(Application.Users.DTOs.LoginWithPasswordDTO,System.Threading.CancellationToken)">
             <summary>
-            بررسی نام کاربری کاربر
+            ورود با رمز عبور (فقط برای کاربرانی که رمز عبور تنظیم کرده‌اند)
             </summary>
-            <param name="username"></param>
-            <param name="cancellationToken"></param>
-            <returns></returns>
         </member>
-        <member name="M:Kolbeh.Api.Controllers.v1.UsersController.RegisterUser(Kolbeh.Api.Models.DTOs.RegisterUserDTO,System.Threading.CancellationToken)">
+        <member name="M:UsersController.SetPassword(Application.Users.DTOs.SetPasswordDTO,System.Threading.CancellationToken)">
             <summary>
-            ثبت نام کاربرعادی
+            تنظیم رمز عبور برای کاربر (فعال‌سازی احراز هویت با رمز عبور)
             </summary>
-            <param name="input"></param>
-            <param name="cancellationToken"></param>
-            <returns></returns>
         </member>
-        <member name="M:Kolbeh.Api.Controllers.v1.UsersController.Delete(System.Guid,System.Threading.CancellationToken)">
+        <member name="M:UsersController.UpdatePassword(Application.Users.DTOs.SetPasswordDTO,System.Threading.CancellationToken)">
             <summary>
-            حذف کاربر با ایدی توسط ادمین
+            به‌روزرسانی رمز عبور
             </summary>
-            <param name="id"></param>
-            <param name="cancellationToken"></param>
-            <returns></returns>
         </member>
-        <member name="M:Kolbeh.Api.Controllers.v1.UsersController.SendOtp(System.String,System.Threading.CancellationToken)">
+        <member name="M:UsersController.SendOtp(System.String,System.Threading.CancellationToken)">
             <summary>
             ارسال OTP
             </summary>
             <param name="phoneNumber"></param>
-            <param name="cancellationToken"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Kolbeh.Api.Controllers.v1.UsersController.ResetPasswordByOtp(Application.Users.DTOs.ResetPasswordByOtp,System.Threading.CancellationToken)">
-            <summary>
-            تعویض رمز عبور با otp
-            </summary>
-            <param name="input"></param>
-            <param name="cancellationToken"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Kolbeh.Api.Controllers.v1.UsersController.AddRoleToUser(Application.Users.DTOs.AddRoleToUserDTO,System.Threading.CancellationToken)">
-            <summary>
-            افزودن نقش ها به کاربر
-            </summary>
-            <param name="input"></param>
-            <param name="cancellationToken"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Kolbeh.Api.Controllers.v1.UsersController.RemoveFromRolesUser(Application.Users.DTOs.AddRoleToUserDTO,System.Threading.CancellationToken)">
-            <summary>
-            حذف نقش ها از کاربر
-            </summary>
-            <param name="input"></param>
             <param name="cancellationToken"></param>
             <returns></returns>
         </member>

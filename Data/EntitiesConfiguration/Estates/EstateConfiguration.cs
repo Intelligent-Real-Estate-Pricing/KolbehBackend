@@ -10,9 +10,9 @@ using System.Threading.Tasks;
 
 namespace Data.EntitiesConfiguration.Estates
 {
-    public class EstateConfiguration : IEntityTypeConfiguration<Estate>
+    public class EstateConfiguration : IEntityTypeConfiguration<SmartRealEstatePricing>
     {
-        public void Configure(EntityTypeBuilder<Estate> builder)
+        public void Configure(EntityTypeBuilder<SmartRealEstatePricing> builder)
         {
             builder.HasKey(x => x.Id);
 

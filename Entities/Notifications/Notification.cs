@@ -31,7 +31,7 @@ namespace Entities.Notifications
         /// <summary> شناسه یکتای ملک مربوط به نوتیفیکیشن </summary>
         public Guid RelatedEstateId { get; set; }
 
-        public Estate RelatedEstate { get; set; }
+        public SmartRealEstatePricing RelatedEstate { get; set; }
 
 
 

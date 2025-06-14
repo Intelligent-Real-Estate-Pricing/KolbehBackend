@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 namespace Application.Estates.Command.DeleteEstates
 {
     public record DeleteEstateCommand(Guid Id) : ICommand<ServiceResult>;
-    public class DeleteEstateCommandHandler(IRepository<Estate> estateRepository,
+    public class DeleteEstateCommandHandler(IRepository<SmartRealEstatePricing> estateRepository,
         
     IHttpContextAccessor httpContextAccessor
         ) : ICommandHandler<DeleteEstateCommand, ServiceResult>

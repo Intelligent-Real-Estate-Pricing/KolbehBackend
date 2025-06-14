@@ -1,6 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<ItemGroup>
+	  <Compile Remove="Users\Command\RegisterUserWithOtp4\**" />
+	  <EmbeddedResource Remove="Users\Command\RegisterUserWithOtp4\**" />
+	  <None Remove="Users\Command\RegisterUserWithOtp4\**" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="FluentValidation" />
 		<PackageReference Include="FluentValidation.DependencyInjectionExtensions" />
 		<PackageReference Include="MediatR" />

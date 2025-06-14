@@ -9,7 +9,7 @@ namespace Application.Estates.Query.GetById
 {
     public record GetEstateByIdQuery(Guid EstateId)
       : IQuery<ServiceResult<EstateDTO>>;
-    public class GetEstateByIdQueryHandler(IRepository<Estate> estateRepository)
+    public class GetEstateByIdQueryHandler(IRepository<SmartRealEstatePricing> estateRepository)
         : IQueryHandler<GetEstateByIdQuery, ServiceResult<EstateDTO>>
     {
         public async Task<ServiceResult<EstateDTO>> Handle(GetEstateByIdQuery request, CancellationToken cancellationToken)
@@ -21,7 +21,7 @@ namespace Application.Estates.Query.GetById
                 .Select(x => new EstateDTO
                 {
                     UserName = x.User.FullName,
-                    NameNeighborhood = x.NameNeighborhood,
+                    NameNeighborhood = x.Zone,
                     Address = x.Address,
                     Location = x.Location,
                     RealEstateOperationType = x.RealEstateOperationType,
@@ -39,6 +39,7 @@ namespace Application.Estates.Query.GetById
                     HasTerrace = x.HasTerrace,
                     HasParking = x.HasParking,
                     HasElevator = x.HasElevator,
+                    PriceingWithAi=x.PriceingWithAi,
                     HasSauna = x.HasSauna,
                     HasJacuzzi = x.HasJacuzzi,
                     HasRoofGarden = x.HasRoofGarden,
