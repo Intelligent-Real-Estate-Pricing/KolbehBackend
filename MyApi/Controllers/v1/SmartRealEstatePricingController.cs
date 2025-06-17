@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebFramework.Api;
 using Application.Estates.Command.PricingRequest;
+using Application.Estates.Command.SetPrice;
 
 namespace Kolbeh.Api.Controllers.v1
 {
@@ -31,7 +32,12 @@ namespace Kolbeh.Api.Controllers.v1
         [HttpPost]
         [Authorize]
         public async Task<ApiResult> Create([FromBody] CreateEstatesDTO input)
-            => (await commandDispatcher.SendAsync(new CreateEstateCommand(input))).ToApiResult();
+            => (await commandDispatcher.SendAsync(new CreateEstateCommand(input))).ToApiResult();     /// <summary>
+        /// ثبت قیمت
+        /// </summary>
+        [HttpPost]
+        public async Task<ApiResult> SetPrice([FromBody] SetPriceDto input)
+            => (await commandDispatcher.SendAsync(new SetPriceCommand(input))).ToApiResult();
 
         /// <summary>
         /// حذف ملک
