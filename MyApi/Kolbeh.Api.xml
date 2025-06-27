@@ -90,6 +90,11 @@
             ساخت ملک جدید
             </summary>
         </member>
+        <member name="M:Kolbeh.Api.Controllers.v1.SmartRealEstatePricingController.SetPrice(Application.Estates.DTOs.SetPriceDto)">
+            <summary>
+            ثبت قیمت
+            </summary>
+        </member>
         <member name="M:Kolbeh.Api.Controllers.v1.SmartRealEstatePricingController.Delete(System.Guid)">
             <summary>
             حذف ملک
