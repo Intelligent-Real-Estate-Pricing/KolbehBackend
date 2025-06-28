@@ -20,7 +20,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{BB0ABD72-BA12-4DD5-8AC5-6D23FDEC9E11}"
 	ProjectSection(SolutionItems) = preProject
 		Dockerfile = Dockerfile
-		..\..\liara.json = ..\..\liara.json
+		liara.json = liara.json
 	EndProjectSection
 EndProject
 Global
