@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Hosting;
-using Serilog;
 using Serilog.Events;
+using Serilog;
 
 public static class SerilogConfig
 {
@@ -10,12 +10,18 @@ public static class SerilogConfig
             var env = hostingContext.HostingEnvironment;
             var applicationName = env.ApplicationName;
             var environmentName = env.EnvironmentName;
-
             var logFolder = "/tmp/logs";
-            Directory.CreateDirectory(logFolder);
+
+            try
+            {
+                Directory.CreateDirectory(logFolder);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Failed to create log directory: {ex.Message}");
+            }
 
             var logFilePath = Path.Combine(logFolder, "log-.txt");
-
             loggerConfiguration
                 .MinimumLevel.Information()
                 .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
