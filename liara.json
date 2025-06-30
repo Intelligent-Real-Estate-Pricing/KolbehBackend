@@ -1,0 +1,8 @@
+{
+  "app": "kolbeh-test",
+  "port": 5001,
+  "build": {
+    "location": "germany"
+  },
+  "disks": []
+}
