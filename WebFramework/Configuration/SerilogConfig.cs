@@ -1,6 +1,8 @@
 ﻿using Microsoft.Extensions.Hosting;
-using Serilog.Events;
 using Serilog;
+using Serilog.Events;
+using System;
+using System.IO;
 
 public static class SerilogConfig
 {
@@ -10,28 +12,30 @@ public static class SerilogConfig
             var env = hostingContext.HostingEnvironment;
             var applicationName = env.ApplicationName;
             var environmentName = env.EnvironmentName;
-            var logFolder = "/tmp/logs";
 
-            try
+            var logFolder = Path.Combine(AppContext.BaseDirectory, "Logs");
+            Directory.CreateDirectory(logFolder);
+
+            var date = DateTime.Now.ToString("yyyy-MM-dd");
+            var logFilePath = Path.Combine(logFolder, $"{date}.log");
+
+            // حذف فایل قبلی اگر وجود دارد
+            if (File.Exists(logFilePath))
             {
-                Directory.CreateDirectory(logFolder);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Failed to create log directory: {ex.Message}");
+                File.Delete(logFilePath);
             }
 
-            var logFilePath = Path.Combine(logFolder, "log-.txt");
-            loggerConfiguration
-                .MinimumLevel.Information()
+            loggerConfiguration.MinimumLevel.Information()
                 .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
+                .MinimumLevel.Override("System.Net.Http.HttpClient", LogEventLevel.Warning)
+                .MinimumLevel.Override("Microsoft.Hosting.Lifetime", LogEventLevel.Information)
                 .Enrich.WithProperty("ApplicationName", applicationName)
                 .Enrich.WithProperty("EnvironmentName", environmentName)
-                .WriteTo.Console()
+                .WriteTo.Console(outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj}{NewLine}{Exception}")
                 .WriteTo.File(
-                    logFilePath,
-                    rollingInterval: RollingInterval.Day,
+                    path: logFilePath,
                     outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj}{NewLine}{Exception}",
+                    rollingInterval: RollingInterval.Infinite,
                     shared: true
                 );
         };
