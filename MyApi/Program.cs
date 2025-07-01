@@ -70,14 +70,32 @@ app.UseSwaggerAndUI();
 app.UseRouting();
 
 //Use this config just in Develoment (not in Production)
-app.UseCors(o =>
+if (app.Environment.IsDevelopment())
 {
-    o.AllowAnyMethod();
-    o.AllowAnyHeader();
-    o.SetIsOriginAllowed(origin => true);
-    o.AllowCredentials();
-});
-
+    // تنظیمات CORS برای Development
+    app.UseCors(o =>
+    {
+        o.AllowAnyMethod();
+        o.AllowAnyHeader();
+        o.SetIsOriginAllowed(origin => true);
+        o.AllowCredentials();
+    });
+}
+else
+{
+    // تنظیمات CORS برای Production
+    app.UseCors(o =>
+    {
+        o.WithOrigins(
+            "https://kolbeh.liara.run",
+            "https://localhost:5001",
+            "http://localhost:5000"
+        )
+        .AllowAnyMethod()
+        .AllowAnyHeader()
+        .AllowCredentials();
+    });
+}
 
 app.UseAuthentication();
 app.UseAuthorization();

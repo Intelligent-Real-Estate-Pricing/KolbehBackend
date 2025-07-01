@@ -4,10 +4,8 @@
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
 EXPOSE 5000
-EXPOSE 5001
-# حذف خطوط مربوط به ایجاد پوشه logs و تغییر کاربر
-# RUN mkdir -p /app/logs && chmod 777 /app/logs
-# USER app
+ENV ASPNETCORE_URLS=http://+:5000
+ENV ASPNETCORE_ENVIRONMENT=Production
 
 # This stage is used to build the service project
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
