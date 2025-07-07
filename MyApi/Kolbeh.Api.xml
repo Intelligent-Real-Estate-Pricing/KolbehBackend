@@ -4,71 +4,9 @@
         <name>Kolbeh.Api</name>
     </assembly>
     <members>
-        <member name="T:BuildParticipationController">
+        <member name="T:Kolbeh.Api.Controllers.v1.AIResultController">
             <summary>
-            مشارکت در ساخت
-            </summary>
-            <param name="commandDispatcher"></param>
-            <param name="queryDispatcher"></param>
-        </member>
-        <member name="M:BuildParticipationController.#ctor(Application.Cqrs.Commands.ICommandDispatcher,Application.Cqrs.Queris.IQueryDispatcher)">
-            <summary>
-            مشارکت در ساخت
-            </summary>
-            <param name="commandDispatcher"></param>
-            <param name="queryDispatcher"></param>
-        </member>
-        <member name="T:EstateDelegationController">
-            <summary>
-            خرید و اجاره 
-            </summary>
-            <param name="commandDispatcher"></param>
-            <param name="queryDispatcher"></param>
-        </member>
-        <member name="M:EstateDelegationController.#ctor(Application.Cqrs.Commands.ICommandDispatcher,Application.Cqrs.Queris.IQueryDispatcher)">
-            <summary>
-            خرید و اجاره 
-            </summary>
-            <param name="commandDispatcher"></param>
-            <param name="queryDispatcher"></param>
-        </member>
-        <member name="T:RealEstateInfoFileController">
-            <summary>
-            اطلاعات فایل املاک
-            </summary>
-            <param name="commandDispatcher"></param>
-            <param name="queryDispatcher"></param>
-        </member>
-        <member name="M:RealEstateInfoFileController.#ctor(Application.Cqrs.Commands.ICommandDispatcher,Application.Cqrs.Queris.IQueryDispatcher)">
-            <summary>
-            اطلاعات فایل املاک
-            </summary>
-            <param name="commandDispatcher"></param>
-            <param name="queryDispatcher"></param>
-        </member>
-        <member name="M:RealEstateInfoFileController.Create(CreateRealEstateInfoFileDTO)">
-            <summary>
-            ساخت فایل اطلاعات املاک جدید
-            </summary>
-        </member>
-        <member name="M:RealEstateInfoFileController.Update(System.Guid,Application.RealEstateInfoFiles.DTOs.UpdateRealEstateInfoFileDTO)">
-            <summary>
-            ویرایش فایل اطلاعات املاک
-            </summary>
-        </member>
-        <member name="M:RealEstateInfoFileController.Delete(System.Guid)">
-            <summary>
-            حذف فایل اطلاعات املاک
-            </summary>
-        </member>
-        <member name="M:RealEstateInfoFileController.GetAll(GetAllRealEstateInfoFileDTO)">
-            <summary>
-            گرفتن لیست فایل‌های اطلاعات املاک با فیلتر و صفحه‌بندی
-            </summary>
-        </member>
-        <member name="M:RealEstateInfoFileController.Get(System.Guid)">
-            <summary>
-            گرفتن اطلاعات یک فایل املاک با آیدی
+            نتیجه ی AI
             </summary>
         </member>
         <member name="T:Kolbeh.Api.Controllers.v1.SmartRealEstatePricingController">
@@ -164,6 +102,73 @@
             <param name="guid"></param>
             <param name="userId"></param>
             <returns></returns>
+        </member>
+        <member name="T:BuildParticipationController">
+            <summary>
+            مشارکت در ساخت
+            </summary>
+            <param name="commandDispatcher"></param>
+            <param name="queryDispatcher"></param>
+        </member>
+        <member name="M:BuildParticipationController.#ctor(Application.Cqrs.Commands.ICommandDispatcher,Application.Cqrs.Queris.IQueryDispatcher)">
+            <summary>
+            مشارکت در ساخت
+            </summary>
+            <param name="commandDispatcher"></param>
+            <param name="queryDispatcher"></param>
+        </member>
+        <member name="T:EstateDelegationController">
+            <summary>
+            خرید و اجاره 
+            </summary>
+            <param name="commandDispatcher"></param>
+            <param name="queryDispatcher"></param>
+        </member>
+        <member name="M:EstateDelegationController.#ctor(Application.Cqrs.Commands.ICommandDispatcher,Application.Cqrs.Queris.IQueryDispatcher)">
+            <summary>
+            خرید و اجاره 
+            </summary>
+            <param name="commandDispatcher"></param>
+            <param name="queryDispatcher"></param>
+        </member>
+        <member name="T:RealEstateInfoFileController">
+            <summary>
+            اطلاعات فایل املاک
+            </summary>
+            <param name="commandDispatcher"></param>
+            <param name="queryDispatcher"></param>
+        </member>
+        <member name="M:RealEstateInfoFileController.#ctor(Application.Cqrs.Commands.ICommandDispatcher,Application.Cqrs.Queris.IQueryDispatcher)">
+            <summary>
+            اطلاعات فایل املاک
+            </summary>
+            <param name="commandDispatcher"></param>
+            <param name="queryDispatcher"></param>
+        </member>
+        <member name="M:RealEstateInfoFileController.Create(CreateRealEstateInfoFileDTO)">
+            <summary>
+            ساخت فایل اطلاعات املاک جدید
+            </summary>
+        </member>
+        <member name="M:RealEstateInfoFileController.Update(System.Guid,Application.RealEstateInfoFiles.DTOs.UpdateRealEstateInfoFileDTO)">
+            <summary>
+            ویرایش فایل اطلاعات املاک
+            </summary>
+        </member>
+        <member name="M:RealEstateInfoFileController.Delete(System.Guid)">
+            <summary>
+            حذف فایل اطلاعات املاک
+            </summary>
+        </member>
+        <member name="M:RealEstateInfoFileController.GetAll(GetAllRealEstateInfoFileDTO)">
+            <summary>
+            گرفتن لیست فایل‌های اطلاعات املاک با فیلتر و صفحه‌بندی
+            </summary>
+        </member>
+        <member name="M:RealEstateInfoFileController.Get(System.Guid)">
+            <summary>
+            گرفتن اطلاعات یک فایل املاک با آیدی
+            </summary>
         </member>
         <member name="T:UsersController">
             <summary>

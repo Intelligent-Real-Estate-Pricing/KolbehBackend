@@ -25,6 +25,7 @@ public class SendOTPCommandHandler(IRepository<ValidationCode> repository, UserM
             var timeaLeft = TimeSpan.FromSeconds(120) - (DateTime.Now - code.CreatedAt);
             var secondsLeft = Math.Max(0, (int)timeaLeft.TotalSeconds);
             var result = secondsLeft.ToString();
+               return ServiceResult.Ok<string>(code.Code, "کد با موفقیت ارسال شد");
    /*         return ServiceResult.ExpiredCode(result);*/
         }
 

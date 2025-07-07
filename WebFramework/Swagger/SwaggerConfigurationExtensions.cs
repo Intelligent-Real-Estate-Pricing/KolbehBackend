@@ -64,7 +64,6 @@ namespace WebFramework.Swagger
                 //options.IgnoreObsoleteProperties();
 
                 options.SwaggerDoc("v1", new OpenApiInfo { Version = "v1", Title = "API V1" });
-                options.SwaggerDoc("v2", new OpenApiInfo { Version = "v2", Title = "API V2" });
 
                 #region Filters
                 //Enable to use [SwaggerRequestExample] & [SwaggerResponseExample]
