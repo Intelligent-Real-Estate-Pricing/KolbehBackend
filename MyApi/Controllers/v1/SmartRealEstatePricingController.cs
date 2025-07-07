@@ -13,6 +13,8 @@ using Microsoft.AspNetCore.Mvc;
 using WebFramework.Api;
 using Application.Estates.Command.PricingRequest;
 using Application.Estates.Command.SetPrice;
+using Hangfire;
+using Services.Hangfire.Dtos;
 
 namespace Kolbeh.Api.Controllers.v1
 {
@@ -74,16 +76,25 @@ namespace Kolbeh.Api.Controllers.v1
         [Authorize]
         public async Task<ApiResult> PricingRequest([FromQuery] Guid id)
       => (await commandDispatcher.SendAsync(new PricingRequestCommand(id))).ToApiResult();
-         
-/*        /// <summary>
+
+        /// <summary>
         /// درخواست قیمت گذاری انلاین
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpPost("[action]")]
         [Authorize]
-        public async Task<ApiResult> PricingRequestV2([FromQuery] Guid id,string ImageUrl)
-      => (await commandDispatcher.SendAsync(new PricingRequestCommandV2(id))).ToApiResult();*/
+        public async Task<ApiResult> PricingRequestV2([FromQuery] Guid id, string ImageUrl)
+        {
+            var result = await commandDispatcher.SendAsync(new PricingRequestCommand(id));
+
+            BackgroundJob.Schedule<PricingJobs>(
+                job => job.LogToConsole(),
+                TimeSpan.FromHours(1)
+            );
+
+            return result.ToApiResult();
+        }
 
         /// <summary>
         /// گرفتن لیست املاک متعلق به کاربر لاگین کرده
