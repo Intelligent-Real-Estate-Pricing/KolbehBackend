@@ -75,7 +75,7 @@ namespace Kolbeh.Api.Controllers.v1
         public async Task<ApiResult> PricingRequest([FromQuery] Guid id)
       => (await commandDispatcher.SendAsync(new PricingRequestCommand(id))).ToApiResult();
          
-        /// <summary>
+/*        /// <summary>
         /// درخواست قیمت گذاری انلاین
         /// </summary>
         /// <param name="id"></param>
@@ -83,7 +83,7 @@ namespace Kolbeh.Api.Controllers.v1
         [HttpPost("[action]")]
         [Authorize]
         public async Task<ApiResult> PricingRequestV2([FromQuery] Guid id,string ImageUrl)
-      => (await commandDispatcher.SendAsync(new PricingRequestCommand(id))).ToApiResult();
+      => (await commandDispatcher.SendAsync(new PricingRequestCommandV2(id))).ToApiResult();*/
 
         /// <summary>
         /// گرفتن لیست املاک متعلق به کاربر لاگین کرده

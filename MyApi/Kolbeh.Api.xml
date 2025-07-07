@@ -55,13 +55,6 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:Kolbeh.Api.Controllers.v1.SmartRealEstatePricingController.PricingRequestV2(System.Guid,System.String)">
-            <summary>
-            درخواست قیمت گذاری انلاین
-            </summary>
-            <param name="id"></param>
-            <returns></returns>
-        </member>
         <member name="M:Kolbeh.Api.Controllers.v1.SmartRealEstatePricingController.GetMyEstates">
             <summary>
             گرفتن لیست املاک متعلق به کاربر لاگین کرده

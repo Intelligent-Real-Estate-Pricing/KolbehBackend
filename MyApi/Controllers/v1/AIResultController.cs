@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Services.Hubs;
 using Services.Services.NotifHubs;
+using WebFramework.Api;
 
 namespace Kolbeh.Api.Controllers.v1
 {
@@ -12,7 +13,7 @@ namespace Kolbeh.Api.Controllers.v1
   /// </summary>
     [ApiVersion("1")]
     [ApiController]
-    public class AIResultController : ControllerBase
+    public class AIResultController : BaseController
     {
         private readonly IHubContext<NotificationHub> _hubContext;
         private readonly IConnectionMappingService _connectionService;
