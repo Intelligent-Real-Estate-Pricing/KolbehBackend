@@ -1,8 +1,11 @@
 ﻿using Application.Cqrs;
 using Common;
+using Data.Contracts;
+using Data.Repositories;
 using IdGen.DependencyInjection;
 using Serilog;
 using Services.Hubs;
+using StackExchange.Redis;
 using WebFramework.Configuration;
 using WebFramework.CustomMapping;
 using WebFramework.Filters;
@@ -34,7 +37,16 @@ builder.Services.AddJwtAuthentication(_siteSetting.JwtSettings);
 builder.Services.AddServices();
 builder.Services.AddCustomApiVersioning();
 builder.Services.AddIdGen(0);
-builder.Services.AddStackExchangeRedisCache(options => options.Configuration = configuration.GetConnectionString("Redis"));
+builder.Services.AddStackExchangeRedisCache(options =>
+{
+    options.Configuration = builder.Configuration.GetSection("Redis:ConnectionString").Value;
+});
+
+builder.Services.AddSingleton<IConnectionMultiplexer>(sp =>
+    ConnectionMultiplexer.Connect(builder.Configuration.GetSection("Redis:ConnectionString").Value));
+
+builder.Services.AddScoped<ICacheService, RedisCacheService>();
+
 builder.Services.AddMemoryCache();
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSwagger();
