@@ -37,10 +37,7 @@ public class UploadersController(ICommandDispatcher commandDispatcher, IQueryDis
     [HttpPost("[action]")]
     [Authorize]
     [IgnoreApiResultFilter]
-    /*   
-        public async Task<string> UploaddForStaticPage([FromForm] UploadV2DTO input) =>
-         (await commandDispatcher.SendAsync(new UploadAsWebpCommand(input.File, input.FileType, input.Title, input.Alt, input.Description, input.OtherUsersId))).Data.Url;
-    */
+
     public async Task<ActionResult> UploaddForStaticPage([FromForm] UploadV2DTO input)
     {
         var result = await commandDispatcher.SendAsync(new UploadAsWebpCommand(
