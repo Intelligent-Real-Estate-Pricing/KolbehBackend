@@ -64,6 +64,7 @@ builder.Services.AddCors(options =>
         builder.WithOrigins(
             "https://kolbeh.liara.run",
             "https://localhost:5001",
+            "https://localhost:3000",
             "http://localhost:5000"
         )
         .AllowAnyMethod()
