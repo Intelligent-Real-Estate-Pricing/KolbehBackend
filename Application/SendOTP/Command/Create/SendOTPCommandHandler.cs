@@ -1,12 +1,17 @@
 ﻿using Application.Cqrs.Commands;
 using Data.Contracts;
-using Entities.Shared;
-using Entities.Users;
+using Entities.Otp  ;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Services;
 using Services.Services.SmsSender;
+using System.Text.Json;
+using static LoginWithOtpCommandHandler;
+using Entities.Otp;
+using Data.Repositories;
+using Application.SendOTP.DTo;
+using Common;
 
 namespace Application.SendOTP.Command.Create;
 
@@ -50,64 +55,68 @@ namespace Application.SendOTP.Command.Create;
 
 
 
-/*public class SendOTPCommandHandler(
-    IRepository<ValidationCode> repository,
-    UserManager<User> userManager,
+public class SendOTPCommandHandler(
+    
     ISmsSenderService smsSender,
-*//*    ICacheService cache,*//*
+    IRepository<User> UserRepository,
+    ICacheService cache,
     IHttpContextAccessor httpContextAccessor
-) : ICommandHandler<SendOTPCommand, ServiceResult>
+) : ICommandHandler<SendOTPCommand, ServiceResult<otpDto>>
 {
     private const int OtpCooldownSeconds = 120;
     private const int MaxDailyLimit = 10;
     private const int OtpExpireSeconds = 180;
 
-    public async Task<ServiceResult> Handle(SendOTPCommand request, CancellationToken cancellationToken)
+    public async Task<ServiceResult<otpDto>> Handle(SendOTPCommand request, CancellationToken cancellationToken)
     {
         var phone = request.PhoneNumber;
         var ip = GetClientIp();
 
-        // ✅ اگر کاربر قبلاً ثبت‌نام کرده، اجازه ارسال کد ندارد
-        var user = await userManager.FindByNameAsync(phone);
-        if (user is not null)
-            return ServiceResult.Fail("کاربری با این شماره موبایل ثبت‌نام کرده است");
-
         var cooldownKey = $"otp:cooldown:{phone}";
         var dailyLimitKey = $"otp:daily:{phone}:{DateTime.Now:yyyyMMdd}";
+        var otpKey = $"otp:data:{phone}";
 
+      var UserExsit=  UserRepository.TableNoTracking.Where(a => a.PhoneNumber == phone).Any();
+        var Result = new otpDto()
+        {
+        UserExist=UserExsit
+        };
         var cooldownTtl = await cache.GetTimeToLiveAsync(cooldownKey);
         if (cooldownTtl.HasValue && cooldownTtl.Value.TotalSeconds > 0)
         {
             var secondsLeft = (int)cooldownTtl.Value.TotalSeconds;
-            return ServiceResult.ExpiredCode(secondsLeft.ToString());
-     
+            return ServiceResult<otpDto>.Fail<otpDto>(new otpDto(),secondsLeft.ToString(), ApiResultStatusCode.ExpiredCode);
+
         }
 
         var sendCount = await cache.GetIntAsync(dailyLimitKey) ?? 0;
         if (sendCount >= MaxDailyLimit)
-            return ServiceResult.Fail("سقف ارسال کد فعال‌سازی برای امروز به پایان رسیده");
+        return ServiceResult<otpDto>.Fail<otpDto>(new otpDto(), "سقف ارسال کد فعال‌سازی برای امروز به پایان رسیده", ApiResultStatusCode.ExpiredCode);
+
 
         var otpCode = Random.Shared.Next(10000, 99999).ToString();
 
-        var validationCode = new ValidationCode
+        var otpInfo = new OtpData
         {
             Code = otpCode,
-            PhoneNumber = phone,
-            CreatedAt = DateTime.Now,
-            ExpireAt = DateTime.Now.AddSeconds(OtpExpireSeconds),
+            CreatedAt = DateTime.Now.ToString("O"),
+            ExpireAt = DateTime.Now.AddSeconds(OtpExpireSeconds).ToString("O"),
             TryCount = 0,
-            IsValid = true
+            IsValid = true,
+            IP = ip
         };
 
-        await repository.AddAsync(validationCode, cancellationToken);
+        var otpJson = JsonSerializer.Serialize(otpInfo);
 
-        await smsSender.SendOTP(phone, otpCode);
-
+        await cache.SetAsync(otpKey, otpJson, TimeSpan.FromSeconds(OtpExpireSeconds));
         await cache.SetAsync(cooldownKey, "1", TimeSpan.FromSeconds(OtpCooldownSeconds));
-
         await cache.IncrementAsync(dailyLimitKey, 1, TimeSpan.FromHours(24));
 
-        return ServiceResult.Ok("کد فعال‌سازی با موفقیت ارسال شد");
+      
+
+        await smsSender.SendOTP(phone, otpCode);    
+
+        return ServiceResult<otpDto>.Ok(Result, "کد فعال‌سازی با موفقیت ارسال شد");
     }
 
     private string GetClientIp()
@@ -115,4 +124,3 @@ namespace Application.SendOTP.Command.Create;
         return httpContextAccessor.HttpContext?.Connection?.RemoteIpAddress?.ToString() ?? "unknown";
     }
 }
-*/

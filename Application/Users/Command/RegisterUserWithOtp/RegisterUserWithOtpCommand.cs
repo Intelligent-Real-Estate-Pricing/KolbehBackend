@@ -1,9 +1,9 @@
 ﻿using Application.Cqrs.Commands;
-using Application.Users.DTOs;
 using Services;
 
-public class LoginWithOtpCommand : ICommand<ServiceResult<TokenResponseDTO>>
+public class RegisterUserWithOtpCommand : ICommand<ServiceResult<AccessToken>>
 {
     public string PhoneNumber { get; set; }
+    public string FullName { get; set; }
     public string OtpCode { get; set; }
 }

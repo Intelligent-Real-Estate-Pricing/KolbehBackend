@@ -52,12 +52,12 @@ namespace WebFramework.Middlewares
                 message = string.Join(" | ", exception.Errors.Select(e => e.ErrorMessage).ToList());
                 await WriteToResponseAsync();
             }
-            catch (SubscriptionExpiredException exception)
+            catch (OtpExpiredException exception)
             {
                 _logger.LogWarning(exception, exception.Message);
                 httpStatusCode = HttpStatusCode.Forbidden;
                 apiStatusCode = exception.ApiStatusCode;
-                message = "You do not have an active subscription.";
+                message = "Time limit";
                 await WriteToResponseAsync();
             }
             catch (BadRequestException exception)

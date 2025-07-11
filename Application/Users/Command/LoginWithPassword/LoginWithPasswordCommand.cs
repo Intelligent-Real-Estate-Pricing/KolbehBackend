@@ -2,8 +2,8 @@
 using Application.Users.DTOs;
 using Services;
 
-public class LoginWithOtpCommand : ICommand<ServiceResult<TokenResponseDTO>>
+public class LoginWithPasswordCommand : ICommand<ServiceResult<TokenResponseDTO>>
 {
     public string PhoneNumber { get; set; }
-    public string OtpCode { get; set; }
+    public string Password { get; set; }
 }

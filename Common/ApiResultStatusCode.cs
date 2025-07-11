@@ -28,8 +28,8 @@ namespace Common
         [Display(Name = "کد منقضی شده است")]
         ExpiredCode = 7,
 
-        [Display(Name = "پلن فعال ندارید")]
-        ExpiredPlan = 8,
+        [Display(Name = "کد فعال ندارید")]
+        ExpireCode= 8,
 
     }
 }

@@ -45,8 +45,7 @@ builder.Services.AddStackExchangeRedisCache(options =>
 builder.Services.AddSingleton<IConnectionMultiplexer>(sp =>
     ConnectionMultiplexer.Connect(builder.Configuration.GetSection("Redis:ConnectionString").Value));
 
-builder.Services.AddScoped<ICacheService, RedisCacheService>();
-
+builder.Services.AddCqrs();
 builder.Services.AddMemoryCache();
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSwagger();

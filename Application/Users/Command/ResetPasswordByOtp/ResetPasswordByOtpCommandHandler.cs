@@ -1,6 +1,6 @@
 ﻿using Application.Cqrs.Commands;
 using Data.Contracts;
-using Entities.Shared;
+using Data.Repositories;
 using Entities.Users;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -8,37 +8,41 @@ using Services;
 
 namespace Application.Users.Command.ResetPasswordByOtp;
 
+
 public class ResetPasswordByOtpCommandHandler(
-       IRepository<ValidationCode> repository,
-       IRepository<User> userRepository,
-       UserManager<User> userManager
+       IRepository<User> _userRepository,
+       UserManager<User> _userManager,
+       ICacheService _cache
        ) : ICommandHandler<ResetPasswordByOtpCommand, ServiceResult>
 {
+ 
+
     public async Task<ServiceResult> Handle(ResetPasswordByOtpCommand request, CancellationToken cancellationToken)
     {
-        var validationCode = await
-           repository
-           .Table
-           .OrderByDescending(x => x.Id
-           ).Where(x => x.PhoneNumber == request.PhoneNumber && x.Code == request.Otp)
-           .FirstOrDefaultAsync(cancellationToken);
+        var otpKey = $"otp:code:{request.PhoneNumber}";
+        var cachedOtp = await _cache.GetAsync(otpKey);
 
-        if (validationCode is null || (validationCode is not null && !validationCode.IsValid))
+        if (string.IsNullOrWhiteSpace(cachedOtp) || cachedOtp != request.Otp)
             return ServiceResult.BadRequest<AccessToken>("کد وارد شده صحیح نیست یا منقضی شده است");
 
-        var user = await userRepository.Table.Where(x => x.PhoneNumber == request.PhoneNumber).FirstOrDefaultAsync();
-        if (user == null)
+        var user = await _userRepository.Table
+            .FirstOrDefaultAsync(x => x.PhoneNumber == request.PhoneNumber, cancellationToken);
+
+        if (user is null)
             return ServiceResult.BadRequest<AccessToken>("کاربر یافت نشد");
 
-        var token = await userManager.GeneratePasswordResetTokenAsync(user);
+        var token = await _userManager.GeneratePasswordResetTokenAsync(user);
 
-        var result = await userManager.ResetPasswordAsync(user, token, request.Password);
+        var result = await _userManager.ResetPasswordAsync(user, token, request.Password);
 
         if (!result.Succeeded)
         {
-            var errorMessage = string.Join(" | ", result.Errors.Select(x => x.Description).ToList());
+            var errorMessage = string.Join(" | ", result.Errors.Select(x => x.Description));
             return ServiceResult.BadRequest<AccessToken>(errorMessage);
         }
+
+        // پاک کردن کد OTP از کش
+        await _cache.RemoveAsync(otpKey);
 
         return ServiceResult.Ok();
     }

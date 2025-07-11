@@ -3,6 +3,8 @@ using Application.Cqrs.Commands;
 using Application.Cqrs.Commands.Dispatcher;
 using Application.Cqrs.Queris;
 using Application.Cqrs.Queris.Dispatcher;
+using Data.Contracts;
+using Data.Repositories;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -25,6 +27,8 @@ namespace Application.Cqrs
             services.AddValidatorsFromAssembly(typeof(ICommand<>).Assembly);
             services.AddScoped<ICommandDispatcher, CommandDispatcher>();
             services.AddScoped<IQueryDispatcher, QueryDispatcher>();
+            services.AddScoped<ICacheService, RedisCacheService>();
+
             return services;
         }
     }

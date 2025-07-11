@@ -35,6 +35,16 @@ public class SmsSender(
 
         await SendFast(phoneNumber, parameters, templateId);
     }
+        public async Task test(string phoneNumber, string otp)
+    {
+        _ = int.TryParse(configuration["SiteSettings:SmsSetting:OtpLogin"], out int templateId);
+        var parameters = new VerifySendParameter[]
+           {
+                new("Code",otp)
+           };
+
+        await SendFast(phoneNumber, parameters, 123456);
+    }
 
 
 }
