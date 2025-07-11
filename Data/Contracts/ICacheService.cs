@@ -9,7 +9,7 @@ namespace Data.Contracts
     public interface ICacheService
     {
         Task SetAsync(string key, string value, TimeSpan expiration);
-        Task<string?> GetAsync(string key);
+        Task<string> GetAsync(string key);
         Task<int?> GetIntAsync(string key);
         Task<bool> ExistsAsync(string key);
         Task RemoveAsync(string key);

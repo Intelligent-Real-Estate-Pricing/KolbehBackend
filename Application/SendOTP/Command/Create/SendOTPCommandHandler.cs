@@ -8,7 +8,6 @@ using Services;
 using Services.Services.SmsSender;
 using System.Text.Json;
 using static LoginWithOtpCommandHandler;
-using Entities.Otp;
 using Data.Repositories;
 using Application.SendOTP.DTo;
 using Common;

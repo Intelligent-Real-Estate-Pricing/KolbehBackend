@@ -22,7 +22,7 @@ namespace Data.Repositories
             await _db.StringSetAsync(key, value, expiration);
         }
 
-        public async Task<string?> GetAsync(string key)
+        public async Task<string> GetAsync(string key)
         {
             var result = await _db.StringGetAsync(key);
             return result.HasValue ? result.ToString() : null;

@@ -4,6 +4,7 @@ using WebFramework.Api;
 
 namespace Kolbeh.Api.Models
 {
+
     public class UserDTO : BaseDto<UserDTO, User, Guid>
     {
         public UserDTO()
@@ -82,7 +83,7 @@ namespace Kolbeh.Api.Models
                 })));
         }
     }
-
+    ///
     public class RoleDTO
     {
         private RoleDTO(string name, string description)

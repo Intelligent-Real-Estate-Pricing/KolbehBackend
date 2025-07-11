@@ -11,7 +11,7 @@ using System.Reflection;
 
 namespace Data
 {
-    public class ApplicationDbContext(DbContextOptions options, ILogger<ApplicationDbContext> logger)
+    public class ApplicationDbContext(DbContextOptions options, ILogger<ApplicationDbContext> _logger)
         : IdentityDbContext<
           User, Role, Guid,
           IdentityUserClaim<Guid>, UserRole, IdentityUserLogin<Guid>,
@@ -30,29 +30,39 @@ namespace Data
             modelBuilder.AddRestrictDeleteBehaviorConvention();
             modelBuilder.AddSequentialGuidForIdConvention();
             modelBuilder.AddPluralizingTableNameConvention();
+            _logger.LogInformation("Model creating completed with custom conventions and configurations.");
+
         }
 
         public override int SaveChanges()
         {
             _cleanString();
+            _logger.LogInformation("SaveChanges called (sync).");
+
             return base.SaveChanges();
         }
 
         public override int SaveChanges(bool acceptAllChangesOnSuccess)
         {
             _cleanString();
+            _logger.LogInformation("SaveChanges called (sync, acceptAllChangesOnSuccess={Accept})", acceptAllChangesOnSuccess);
+
             return base.SaveChanges(acceptAllChangesOnSuccess);
         }
 
         public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
         {
             _cleanString();
+            _logger.LogInformation("SaveChangesAsync called (acceptAllChangesOnSuccess={Accept})", acceptAllChangesOnSuccess);
+
             return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
         }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
             _cleanString();
+            _logger.LogInformation("SaveChangesAsync called.");
+
             return base.SaveChangesAsync(cancellationToken);
         }
 
@@ -78,6 +88,7 @@ namespace Data
                         var newVal = val.Fa2En().FixPersianChars();
                         if (newVal == val)
                             continue;
+                        _logger.LogDebug("Sanitized string property '{Property}' on entity '{EntityType}'.", propName, item.Entity.GetType().Name);
                         property.SetValue(item.Entity, newVal, null);
                     }
                 }
@@ -91,9 +102,14 @@ namespace Data
         public bool HasActiveTransaction => _currentTransaction != null;
         public async Task<IDbContextTransaction> BeginTransactionAsync()
         {
-            if (_currentTransaction != null) return null;
+            if (_currentTransaction != null) {
+
+                _logger.LogWarning("Attempted to begin a new transaction while another is active.");
+
+                return null; }
 
             _currentTransaction = await Database.BeginTransactionAsync(IsolationLevel.ReadCommitted);
+            _logger.LogInformation("Transaction started with ID: {TransactionId}", _currentTransaction.TransactionId);
 
             return _currentTransaction;
         }
@@ -102,6 +118,8 @@ namespace Data
         {
             try
             {
+                _logger.LogWarning("Rolling back transaction ID: {TransactionId}", _currentTransaction?.TransactionId);
+
                 _currentTransaction?.Rollback();
             }
             finally
@@ -110,6 +128,8 @@ namespace Data
                 {
                     _currentTransaction.Dispose();
                     _currentTransaction = null;
+                    _logger.LogInformation("Transaction rolled back and disposed.");
+
                 }
             }
         }
@@ -123,9 +143,13 @@ namespace Data
             {
                 await SaveChangesAsync();
                 transaction.Commit();
+                _logger.LogInformation("Transaction committed successfully. ID: {TransactionId}", transaction.TransactionId);
+
             }
-            catch
+            catch(Exception ex) 
             {
+                _logger.LogError(ex, "Error committing transaction ID: {TransactionId}", transaction.TransactionId);
+
                 RollbackTransaction();
                 throw;
             }
@@ -135,6 +159,8 @@ namespace Data
                 {
                     _currentTransaction.Dispose();
                     _currentTransaction = null;
+                    _logger.LogInformation("Transaction disposed after commit.");
+
                 }
             }
         }

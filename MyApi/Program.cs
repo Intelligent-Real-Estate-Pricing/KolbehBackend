@@ -128,6 +128,10 @@ app.MapControllers();
 app.Run();
 
 
+/// <summary>
+/// Entry point for the Kolbeh API application.
+/// Contains configuration setup and middleware registration.
+/// </summary>
 public partial class Program
 {
     static IConfiguration GetConfiguration()
