@@ -1,6 +1,7 @@
 ﻿using Application.Cqrs.Commands;
 using Application.Cqrs.Queris;
 using Application.SendOTP.Command.Create;
+using Application.SendOTP.DTo;
 using Application.Users.DTOs;
 using Asp.Versioning;
 using Kolbeh.Api;
@@ -141,7 +142,7 @@ public class UsersController : BaseController
     /// <returns></returns>
     [HttpPost("[action]")]
     [AllowAnonymous]
-    public virtual async Task<ApiResult> SendOtp(string phoneNumber, CancellationToken cancellationToken) =>
+    public virtual async Task<ApiResult<otpDto>> SendOtp(string phoneNumber, CancellationToken cancellationToken) =>
       (await _commandDispatcher.SendAsync(new SendOTPCommand(phoneNumber), cancellationToken)).ToApiResult();
 
 
