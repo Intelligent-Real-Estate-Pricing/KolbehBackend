@@ -1,150 +1,173 @@
-﻿using Application.Cqrs;
-using Common;
-using Data.Contracts;
-using Data.Repositories;
-using IdGen.DependencyInjection;
-using Serilog;
-using Services.Hubs;
+﻿using Microsoft.AspNetCore.StaticFiles;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using HealthChecks.UI.Client;
+using System.Text.Json;
 using StackExchange.Redis;
-using WebFramework.Configuration;
+using Serilog;
+using Common;
 using WebFramework.CustomMapping;
-using WebFramework.Filters;
-using WebFramework.Middlewares;
+using WebFramework.Configuration;
+using IdGen.DependencyInjection;
 using WebFramework.Swagger;
+using WebFramework.Middlewares;
+using Services.Hubs;
 
-var configuration = GetConfiguration();
 var builder = WebApplication.CreateBuilder(args);
-builder.Configuration.AddConfiguration(configuration);
+
+// Configuration Setup
+var configuration = builder.Configuration;
 builder.Host.UseContentRoot(Directory.GetCurrentDirectory());
 builder.Host.UseSerilog(SerilogConfig.ConfigureLogger);
 
+// Settings Configuration
+var siteSettings = configuration.GetSection(nameof(SiteSettings)).Get<SiteSettings>()
 
-builder.Services.AddSignalR(e =>
-{
-    e.MaximumReceiveMessageSize = 102400000;
-    e.EnableDetailedErrors = true;
-});
-
+    ?? throw new InvalidOperationException("SiteSettings configuration is required");
 builder.Services.Configure<SiteSettings>(configuration.GetSection(nameof(SiteSettings)));
-var _siteSetting = configuration.GetSection(nameof(SiteSettings)).Get<SiteSettings>();
 
+// Core Services
+builder.Services.AddSignalR(ConfigureSignalR);
 builder.Services.InitializeAutoMapper();
-
 builder.Services.AddDbContext(configuration);
-builder.Services.AddCustomIdentity(_siteSetting.IdentitySettings);
+builder.Services.AddCustomIdentity(siteSettings.IdentitySettings);
 builder.Services.AddMinimalMvc();
-builder.Services.AddJwtAuthentication(_siteSetting.JwtSettings);
+builder.Services.AddJwtAuthentication(siteSettings.JwtSettings);
 builder.Services.AddServices();
 builder.Services.AddCustomApiVersioning();
+
 builder.Services.AddIdGen(0);
-builder.Services.AddStackExchangeRedisCache(options =>
-{
-    options.Configuration = builder.Configuration.GetSection("Redis:ConnectionString").Value;
-});
 
-builder.Services.AddSingleton<IConnectionMultiplexer>(sp =>
-    ConnectionMultiplexer.Connect(builder.Configuration.GetSection("Redis:ConnectionString").Value));
+// Caching Services
+builder.Services.AddCaching(configuration);
 
+// Health Checks
+builder.Services.AddHealthChecks(configuration);
+builder.Services.AddHealthCheckUI(configuration);
+
+// CORS Configuration
+builder.Services.AddCorsConfiguration();
+
+// CQRS
 builder.Services.AddCqrs();
-builder.Services.AddMemoryCache();
-builder.Services.AddDistributedMemoryCache();
+
+// API Documentation
 builder.Services.AddSwagger();
 
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("DevCors", builder =>
-    {
-        builder.AllowAnyOrigin()
-               .AllowAnyMethod()
-               .AllowAnyHeader();
-    });
-
-    options.AddPolicy("ProdCors", builder =>
-    {
-        builder.WithOrigins(
-            "https://kolbeh.liara.run",
-            "https://localhost:5001",
-            "https://localhost:3000",
-            "http://localhost:5000"
-        )
-        .AllowAnyMethod()
-        .AllowAnyHeader()
-        .AllowCredentials();
-    });
-});
-
-//// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-//builder.Services.AddEndpointsApiExplorer();
+// CORS Configuration
+builder.Services.AddCorsConfiguration();
 
 var app = builder.Build();
 
+// Configure Pipeline
+ConfigurePipeline(app);
 
-app.IntializeDatabase();
-
-app.UseCustomExceptionHandler();
-app.UseHsts(app.Environment);
-
-app.UseHttpsRedirection();
-
-app.UseStaticFiles(new StaticFileOptions
-{
-    OnPrepareResponse = r =>
-    {
-        string path = r?.File?.PhysicalPath;
-        if ((path is not null) && (path.EndsWith(".gif") || path.EndsWith(".jpg") || path.EndsWith(".jpeg") || path.EndsWith(".png") || path.EndsWith(".svg") || path.EndsWith(".webp")))
-        {
-            TimeSpan maxAge = new(365, 0, 0, 0);
-            r.Context.Response.Headers.Append("Cache-Control", "max-age=" + maxAge.TotalSeconds.ToString("0"));
-        }
-    }
-});
-
-app.UseSwaggerAndUI();
-app.UseRouting();
-
-if (app.Environment.IsDevelopment())
-{
-    app.UseCors("DevCors");
-}
-else
-{
-    app.UseCors("ProdCors");
-}
-
-app.UseAuthentication();
-app.UseAuthorization();
-app.MapHub<NotificationHub>("/hub/notifications")
-   .RequireCors(app.Environment.IsDevelopment() ? "DevCors" : "ProdCors");
-
-
-app.UseEndpoints(config =>
-{
-
-});
-app.Map("/", () =>
-{
-    return Results.Redirect("/swagger/index.html");
-});
-app.MapControllers();
 app.Run();
 
-
-/// <summary>
-/// Entry point for the Kolbeh API application.
-/// Contains configuration setup and middleware registration.
-/// </summary>
-public partial class Program
+// Local Functions
+static void ConfigureSignalR(Microsoft.AspNetCore.SignalR.HubOptions options)
 {
-    static IConfiguration GetConfiguration()
-    {
-        var builder = new ConfigurationBuilder()
-            .SetBasePath(Directory.GetCurrentDirectory())
-            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-            .AddEnvironmentVariables();
+    options.MaximumReceiveMessageSize = 102400000;
+    options.EnableDetailedErrors = true;
+}
 
-        var config = builder.Build();
-        return builder.Build();
+static void ConfigurePipeline(WebApplication app)
+{
+    // Database Initialization
+    app.IntializeDatabase();
+
+    // Security Middleware
+    app.UseMiddleware<DomainWhitelistMiddleware>();
+    app.UseCustomExceptionHandler();
+    app.UseHsts(app.Environment);
+    app.UseHttpsRedirection();
+
+    // Static Files with Caching
+    app.UseStaticFiles(new StaticFileOptions
+    {
+        OnPrepareResponse = ConfigureStaticFilesCaching
+    });
+
+    // API Documentation
+    app.UseSwaggerAndUI();
+
+    // Routing
+    app.UseRouting();
+
+    // CORS
+    app.UseCors(app.Environment.IsDevelopment() ? "DevCors" : "ProdCors");
+
+    // Authentication & Authorization
+    app.UseAuthentication();
+    app.UseAuthorization();
+
+    // Endpoints
+    app.MapHub<NotificationHub>("/hub/notifications")
+       .RequireCors(app.Environment.IsDevelopment() ? "DevCors" : "ProdCors");
+
+    // Health Check Endpoints
+    app.MapHealthChecks("/health", new HealthCheckOptions
+    {
+        ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse,
+        ResultStatusCodes =
+        {
+            [HealthStatus.Healthy] = StatusCodes.Status200OK,
+            [HealthStatus.Degraded] = StatusCodes.Status200OK,
+            [HealthStatus.Unhealthy] = StatusCodes.Status503ServiceUnavailable
+        }
+    });
+
+    app.MapHealthChecks("/health/detailed", new HealthCheckOptions
+    {
+        ResponseWriter = async (context, report) =>
+        {
+            context.Response.ContentType = "application/json";
+            var result = System.Text.Json.JsonSerializer.Serialize(new
+            {
+                status = report.Status.ToString(),
+                totalDuration = report.TotalDuration.TotalMilliseconds,
+                checks = report.Entries.Select(e => new
+                {
+                    name = e.Key,
+                    status = e.Value.Status.ToString(),
+                    duration = e.Value.Duration.TotalMilliseconds,
+                    exception = e.Value.Exception?.Message,
+                    data = e.Value.Data,
+                    description = e.Value.Description,
+                    tags = e.Value.Tags
+                })
+            }, new JsonSerializerOptions { WriteIndented = true });
+
+            await context.Response.WriteAsync(result);
+        }
+    });
+
+    // Health Check UI
+    app.MapHealthChecksUI(options =>
+    {
+        options.UIPath = "/health-ui";
+        options.ApiPath = "/health-ui-api";
+        options.UseRelativeApiPath = false;
+        options.UseRelativeResourcesPath = false;
+    });
+
+    app.MapGet("/", () => Results.Redirect("/swagger/index.html"));
+    app.MapControllers();
+}
+
+static void ConfigureStaticFilesCaching(StaticFileResponseContext context)
+{
+    var path = context.File?.PhysicalPath;
+    if (path != null && IsImageFile(path))
+    {
+        var maxAge = TimeSpan.FromDays(365);
+        context.Context.Response.Headers.Append("Cache-Control",
+            $"max-age={maxAge.TotalSeconds:0}");
     }
 }
 
-
+static bool IsImageFile(string path)
+{
+    var imageExtensions = new[] { ".gif", ".jpg", ".jpeg", ".png", ".svg", ".webp" };
+    return imageExtensions.Any(ext => path.EndsWith(ext, StringComparison.OrdinalIgnoreCase));
+}

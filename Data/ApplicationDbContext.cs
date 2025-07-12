@@ -11,12 +11,13 @@ using System.Reflection;
 
 namespace Data
 {
-    public class ApplicationDbContext(DbContextOptions options, ILogger<ApplicationDbContext> _logger)
+    public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, ILogger<ApplicationDbContext> _logger)
         : IdentityDbContext<
           User, Role, Guid,
           IdentityUserClaim<Guid>, UserRole, IdentityUserLogin<Guid>,
           IdentityRoleClaim<Guid>, IdentityUserToken<Guid>>(options)
     {
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

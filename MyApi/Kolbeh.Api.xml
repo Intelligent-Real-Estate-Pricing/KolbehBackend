@@ -103,6 +103,29 @@
             <param name="userId"></param>
             <returns></returns>
         </member>
+        <member name="T:Kolbeh.Api.Models.RoleDTO">
+            
+        </member>
+        <member name="T:Kolbeh.Api.ServiceResultExtentions">
+            <summary>
+            Provides extension methods to convert ServiceResult to ApiResult.
+            </summary>
+        </member>
+        <member name="M:Kolbeh.Api.ServiceResultExtentions.ToApiResult(Services.ServiceResult)">
+            <summary>
+            Converts a ServiceResult to a generic ApiResult.
+            </summary>
+            <param name="result">The ServiceResult instance.</param>
+            <returns>An ApiResult containing status and message.</returns>
+        </member>
+        <member name="M:Kolbeh.Api.ServiceResultExtentions.ToApiResult``1(Services.ServiceResult{``0})">
+            <summary>
+            Converts a ServiceResult with data to a generic ApiResult with data.
+            </summary>
+            <typeparam name="TData">The type of the data.</typeparam>
+            <param name="result">The ServiceResult containing data.</param>
+            <returns>An ApiResult containing data, status, and message.</returns>
+        </member>
         <member name="T:BuildParticipationController">
             <summary>
             مشارکت در ساخت

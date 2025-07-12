@@ -2,10 +2,18 @@
 
 	<ItemGroup>
 		<PackageReference Include="Asp.Versioning.Mvc" />
+		<PackageReference Include="AspNetCore.HealthChecks.Redis" />
+		<PackageReference Include="AspNetCore.HealthChecks.SqlServer" />
+		<PackageReference Include="AspNetCore.HealthChecks.System" />
+		<PackageReference Include="AspNetCore.HealthChecks.UI" />
+		<PackageReference Include="AspNetCore.HealthChecks.UI.Client" />
+		<PackageReference Include="AspNetCore.HealthChecks.UI.InMemory.Storage" />
 		<PackageReference Include="AutoMapper" />
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
 		<PackageReference Include="Microsoft.AspNetCore.Authorization" />
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" />
+		<PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks" />
+		<PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" />
 		<PackageReference Include="Parbad" />
 		<PackageReference Include="Parbad.AspNetCore" />
 		<PackageReference Include="Parbad.Gateway.ZarinPal" />

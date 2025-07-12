@@ -7,11 +7,19 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<PackageReference Include="AspNetCore.HealthChecks.Redis" />
+		<PackageReference Include="AspNetCore.HealthChecks.SqlServer" />
+		<PackageReference Include="AspNetCore.HealthChecks.System" />
+		<PackageReference Include="AspNetCore.HealthChecks.UI" />
+		<PackageReference Include="AspNetCore.HealthChecks.UI.Client" />
+		<PackageReference Include="AspNetCore.HealthChecks.UI.InMemory.Storage" />
 		<PackageReference Include="FluentValidation" />
 		<PackageReference Include="FluentValidation.DependencyInjectionExtensions" />
 		<PackageReference Include="Hangfire.AspNetCore" />
 		<PackageReference Include="Hangfire.SqlServer" />
 		<PackageReference Include="MediatR" />
+		<PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks" />
+		<PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
 		<PackageReference Include="IdGen" />
 	</ItemGroup>
