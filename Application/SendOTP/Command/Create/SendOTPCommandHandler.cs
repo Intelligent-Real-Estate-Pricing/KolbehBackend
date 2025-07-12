@@ -11,6 +11,7 @@ using static LoginWithOtpCommandHandler;
 using Data.Repositories;
 using Application.SendOTP.DTo;
 using Common;
+using IdentityModel.OidcClient;
 
 namespace Application.SendOTP.Command.Create;
 
@@ -80,19 +81,37 @@ public class SendOTPCommandHandler(
         {
         UserExist=UserExsit
         };
+
+        var existingOtpJson = await cache.GetAsync(otpKey);
+        if (!string.IsNullOrEmpty(existingOtpJson))
+        {
+         
+                var existingOtp = JsonSerializer.Deserialize<OtpData>(existingOtpJson);
+                if (existingOtp != null && existingOtp.IsValid)
+                {
+                    var expireAt = DateTime.Parse(existingOtp.ExpireAt);
+                    if (expireAt > DateTime.Now)
+                    {
+                        return ServiceResult<otpDto>.Ok(Result, "کد فعال‌سازی قبلی هنوز معتبر است");
+                    }
+                }
+        }
+
         var cooldownTtl = await cache.GetTimeToLiveAsync(cooldownKey);
         if (cooldownTtl.HasValue && cooldownTtl.Value.TotalSeconds > 0)
         {
             var secondsLeft = (int)cooldownTtl.Value.TotalSeconds;
-            return ServiceResult<otpDto>.Fail<otpDto>(new otpDto(),secondsLeft.ToString(), ApiResultStatusCode.ExpiredCode);
-
+            return ServiceResult<otpDto>.Fail<otpDto>(new otpDto(), secondsLeft.ToString(), ApiResultStatusCode.ExpiredCode);
         }
 
+        // 3. بررسی daily limit
         var sendCount = await cache.GetIntAsync(dailyLimitKey) ?? 0;
         if (sendCount >= MaxDailyLimit)
-        return ServiceResult<otpDto>.Fail<otpDto>(new otpDto(), "سقف ارسال کد فعال‌سازی برای امروز به پایان رسیده", ApiResultStatusCode.ExpiredCode);
+        {
+            return ServiceResult<otpDto>.Fail<otpDto>(new otpDto(), "سقف ارسال کد فعال‌سازی برای امروز به پایان رسیده", ApiResultStatusCode.ExpiredCode);
+        }
 
-
+        // 4. تولید و ذخیره کد جدید
         var otpCode = Random.Shared.Next(10000, 99999).ToString();
 
         var otpInfo = new OtpData
@@ -106,16 +125,14 @@ public class SendOTPCommandHandler(
         };
 
         var otpJson = JsonSerializer.Serialize(otpInfo);
-
         await cache.SetAsync(otpKey, otpJson, TimeSpan.FromSeconds(OtpExpireSeconds));
         await cache.SetAsync(cooldownKey, "1", TimeSpan.FromSeconds(OtpCooldownSeconds));
         await cache.IncrementAsync(dailyLimitKey, 1, TimeSpan.FromHours(24));
 
-      
-
-        await smsSender.SendOTP(phone, otpCode);    
+        await smsSender.SendOTP(phone, otpCode);
 
         return ServiceResult<otpDto>.Ok(Result, "کد فعال‌سازی با موفقیت ارسال شد");
+
     }
 
     private string GetClientIp()

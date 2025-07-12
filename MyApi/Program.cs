@@ -30,6 +30,7 @@ builder.Services.Configure<SiteSettings>(configuration.GetSection(nameof(SiteSet
 builder.Services.AddSignalR(ConfigureSignalR);
 builder.Services.InitializeAutoMapper();
 builder.Services.AddDbContext(configuration);
+
 builder.Services.AddCustomIdentity(siteSettings.IdentitySettings);
 builder.Services.AddMinimalMvc();
 builder.Services.AddJwtAuthentication(siteSettings.JwtSettings);
@@ -37,6 +38,7 @@ builder.Services.AddServices();
 builder.Services.AddCustomApiVersioning();
 
 builder.Services.AddIdGen(0);
+builder.Services.AddStackExchangeRedisCache(options => options.Configuration = configuration.GetConnectionString("Redis"));
 
 // Caching Services
 builder.Services.AddCaching(configuration);
@@ -142,6 +144,23 @@ static void ConfigurePipeline(WebApplication app)
         }
     });
 
+    app.UseHealthChecks("/health", new HealthCheckOptions
+    {
+        Predicate = _ => true,
+        ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+    });
+
+    app.UseHealthChecks("/health/detailed", new HealthCheckOptions
+    {
+        Predicate = _ => true,
+        ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+    });
+
+    app.UseHealthChecksUI(config =>
+    {
+        config.UIPath = "/health-ui";
+    });
+/*
     // Health Check UI
     app.MapHealthChecksUI(options =>
     {
@@ -149,7 +168,7 @@ static void ConfigurePipeline(WebApplication app)
         options.ApiPath = "/health-ui-api";
         options.UseRelativeApiPath = false;
         options.UseRelativeResourcesPath = false;
-    });
+    });*/
 
     app.MapGet("/", () => Results.Redirect("/swagger/index.html"));
     app.MapControllers();
